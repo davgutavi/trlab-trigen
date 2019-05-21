@@ -1,0 +1,141 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>application</groupId>
+  	<artifactId>trlab-trigen</artifactId>
+	<version>1.0.0</version>
+	<name>Algorithm Application</name>
+	<description>Algorithm Application</description>
+  
+  <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+  
+  <build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<finalName>TriGenApp</finalName>
+					<appendAssemblyId>false</appendAssemblyId>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>algentrypoint.Console</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<show>public</show>
+					<nohelp>true</nohelp>
+				</configuration>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<configuration>
+				<show>public</show>		
+				<doclet>org.stfm.texdoclet.TeXDoclet</doclet>
+                <docletArtifact>
+                    <groupId>org.stfm</groupId>
+                    <artifactId>texdoclet</artifactId>
+                    <version>0.9-SNAPSHOT</version>
+                </docletArtifact>
+				<useStandardDocletOptions>false</useStandardDocletOptions>
+				<destDir>apidocs_tex</destDir>
+                <additionalparam>
+                    -tree
+                    -hyperref
+                    -output trigen_javadoc.tex
+                    -title "TriGen Documentation"
+                    -author "David Guti{\''e}rrez-Avil{\''e}s"
+                    -shortinherited
+                    -date ""
+                    -nosummaries
+                    -nofieldsummary
+                    -noconstructorsummary
+                    -noinherited 
+                    -noindex
+                    -hr
+                </additionalparam>					
+					
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+
+
+	<dependencies>
+
+
+
+
+		
+			<dependency>
+			<groupId>application</groupId>
+			<artifactId>trlab-triqlab</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>application</groupId>
+			<artifactId>trlab-utilities</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+	
+	<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>jgoodies-common</artifactId>
+			<version>1.8.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.jgoodies</groupId>
+			<artifactId>jgoodies-forms</artifactId>
+			<version>1.9.0</version>
+	</dependency>
+
+	</dependencies>
+  
+  
+
+</project>
