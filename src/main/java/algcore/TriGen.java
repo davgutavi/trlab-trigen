@@ -351,6 +351,7 @@ public class TriGen {
 			ExecutorService pool = Executors.newFixedThreadPool(c.getThreads());
 		
 			Collection<ConcurrentEvaluator> concurrentTask = new LinkedList<ConcurrentEvaluator>();
+			
 
 			int i = 0;
 			

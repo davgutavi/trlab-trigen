@@ -38,6 +38,14 @@ public class TransformationsUtilities {
 
 	}
 
+	public static double[][][] buildGTCView (AlgorithmIndividual tricluster,AlgorithmDataset dataset){
+	
+		return buildCube(tricluster.getGenes(),tricluster.getTimes(),tricluster.getSamples(),dataset,3);
+	
+	}
+	
+	
+	
 	private static double [][][] buildCube (Collection<Integer> series, Collection<Integer> xAxis, Collection<Integer> graphics, AlgorithmDataset dataset,int type){
 		
 		double [][][] res = new double [series.size()][xAxis.size()][graphics.size()];
