@@ -10,7 +10,7 @@ import algcore.AlgorithmConfiguration;
 import algcore.AlgorithmIndividual;
 import algcore.AlgorithmDataset;
 import algutils.FitnessUtilities;
-import algutils.TransformationsUtilities;
+import algutils.TriclusterUtilities;
 
 
 /**
@@ -25,7 +25,7 @@ public class StrLsl implements FitnessStrategy  {
 		
 		AlgorithmDataset dataset = (AlgorithmConfiguration.getInstance()).getData();		
 		
-		List<double[][][]> transformaciones = TransformationsUtilities.original(individual, dataset);
+		List<double[][][]> transformaciones = TriclusterUtilities.original(individual, dataset);
 		
 		//////////VISTA GC (Genes-Condiciones)
 	

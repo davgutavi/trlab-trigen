@@ -1,28 +1,22 @@
 package strinitialpop;
 
-/**
- * Estrategia que crea Individuos de forma totalmete aleatoria. 
- * @author DAVID GUTIERREZ AVILES
- */
-
-import initialpops.InitialPopStrategy;
-
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
 import algcore.AlgorithmConfiguration;
-import algcore.AlgorithmIndividual;
 import algcore.AlgorithmDataset;
+import algcore.AlgorithmIndividual;
 import algutils.AlgorithmRandomUtilities;
 import algutils.TriclusterUtilities;
+import initialpops.InitialPopStrategy;
 
-public class RandomStrategy implements InitialPopStrategy {
+public class RandomTimeSeriesStrategy implements InitialPopStrategy {
 
 	public List<AlgorithmIndividual> generateIndividuals(int numberOfIndividuals, String individualClassName) {
 
-		AlgorithmRandomUtilities ALEATORIOS = AlgorithmRandomUtilities.getInstance();		
-		AlgorithmConfiguration PARAM  = AlgorithmConfiguration.getInstance();		
+		AlgorithmRandomUtilities ALEATORIOS = AlgorithmRandomUtilities.getInstance();
+		AlgorithmConfiguration PARAM  = AlgorithmConfiguration.getInstance();
 		AlgorithmDataset DATOS = PARAM.getData();
 				
 		List<AlgorithmIndividual> l = new LinkedList<AlgorithmIndividual>();
@@ -35,8 +29,10 @@ public class RandomStrategy implements InitialPopStrategy {
 			
 			Collection<Integer> g = TriclusterUtilities.getDispersedRandomComponent(numeroGenes,DATOS.getGenesBag());
 			Collection<Integer> c = TriclusterUtilities.getDispersedRandomComponent(numeroCondiciones,DATOS.getSamplesBag());
-			Collection<Integer> t = TriclusterUtilities.getDispersedRandomComponent(numeroTiempos,DATOS.getTimesBag());
-			
+
+			int coordenadaTiempo = ALEATORIOS.getFromInterval(0, DATOS.getTimeSize() - 1);
+			Collection<Integer> t = TriclusterUtilities.getIntervalComponent(coordenadaTiempo,numeroTiempos,DATOS.getTimeSize());
+						
 			AlgorithmIndividual nuevo = null;
 			try {
 				nuevo = (AlgorithmIndividual) (Class.forName(individualClassName)).newInstance();
@@ -48,7 +44,7 @@ public class RandomStrategy implements InitialPopStrategy {
 			catch (IllegalAccessException e) {e.printStackTrace();}
 			catch (ClassNotFoundException e) {e.printStackTrace();}
 
-		}// for
+		}
 
 		return l;
 

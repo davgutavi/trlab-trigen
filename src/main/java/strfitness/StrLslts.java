@@ -8,7 +8,7 @@ import algcore.AlgorithmConfiguration;
 import algcore.AlgorithmDataset;
 import algcore.AlgorithmIndividual;
 import algutils.FitnessUtilities;
-import algutils.TransformationsUtilities;
+import algutils.TriclusterUtilities;
 import fitnessfunctions.FitnessStrategy;
 import labutils.Conversions;
 
@@ -24,7 +24,7 @@ public class StrLslts implements FitnessStrategy  {
 
 		AlgorithmDataset dataset = (AlgorithmConfiguration.getInstance()).getData();		
 		
-		double[][][] individualData = TransformationsUtilities.buildGTCView(individual, dataset);
+		double[][][] individualData = TriclusterUtilities.buildGTCView(individual, dataset);
 		
 		double [][] slopesAngles = FitnessUtilities.buildTableOfAngles(individualData);
 				
