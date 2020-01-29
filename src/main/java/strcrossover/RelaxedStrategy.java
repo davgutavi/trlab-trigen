@@ -1,30 +1,34 @@
 package strcrossover;
 
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import crossovers.CrossoverStrategy;
 import algcore.AlgorithmConfiguration;
 import algcore.AlgorithmIndividual;
 import algcore.TriGen;
-import algutils.AlgorithmRandomUtilities;
+import algutils.TriclusterUtilities;
+import crossovers.CrossoverStrategy;
 
 public class RelaxedStrategy implements CrossoverStrategy {
 
 	public AlgorithmIndividual[] cross(AlgorithmIndividual father, AlgorithmIndividual mother, String individualClassName) {
 
+		
+		
 		AlgorithmIndividual[] r = new AlgorithmIndividual[1];
 
 		father.addEntry("father ["+((TriGen.getInstance()).getOngoingGenerationIndex()+1)+"]");
 		
 		mother.addEntry("mother ["+((TriGen.getInstance()).getOngoingGenerationIndex()+1)+"]");
 	
-		int [] g = getChromosome(father.getGenes(), mother.getGenes(), 1);
+		int [] g = TriclusterUtilities.getInstance().getRandomChromosome(father.getGenes(), mother.getGenes(), 
+				AlgorithmConfiguration.getInstance().getMinG(), AlgorithmConfiguration.getInstance().getMaxG());
 		
-		int [] c = getChromosome(father.getSamples(), mother.getSamples(), 2);
+		int [] c = TriclusterUtilities.getInstance().getRandomChromosome(father.getSamples(), mother.getSamples(), 
+				AlgorithmConfiguration.getInstance().getMinC(), AlgorithmConfiguration.getInstance().getMaxC());
 		
-		int [] t = getChromosome(father.getTimes(), mother.getTimes(), 3);
+		int [] t = TriclusterUtilities.getInstance().getRandomChromosome(father.getTimes(), mother.getTimes(), 
+				AlgorithmConfiguration.getInstance().getMinC(), AlgorithmConfiguration.getInstance().getMaxC());
 		
 		r[0] = buildIndividual(g, c, t, individualClassName);
 
@@ -64,55 +68,6 @@ public class RelaxedStrategy implements CrossoverStrategy {
 	
 	
 	
-	private int [] getChromosome (Collection<Integer> father, Collection<Integer> mother, int componentType){
-		
-		AlgorithmRandomUtilities ALEAT = AlgorithmRandomUtilities.getInstance();
-		
-		AlgorithmConfiguration PARAM = AlgorithmConfiguration.getInstance();
-		
-		ALEAT.newBag();
-		ALEAT.putMarbles(father);
-		ALEAT.putMarbles(mother);
-		
-		int minimo = 0;
-		
-		int maximo = ALEAT.bagSize();
-		
-		if      (componentType==1)  {
-			
-			minimo = PARAM.getMinG();       //Minimo GENES
-			
-			if (maximo>PARAM.getMaxG()){
-			
-				maximo = PARAM.getMaxG();
-			
-			}
-		}
-		else if (componentType==2)  {
-			minimo = PARAM.getMinC(); //Minimo CONDICIONES
-			
-			if (maximo>PARAM.getMaxC()){
-				
-				maximo = PARAM.getMaxC();
-			
-			}
-		}
-		else if (componentType==3) {
-			minimo = PARAM.getMinT();	    //Minimo TIEMPOS
-			
-			if (maximo>PARAM.getMaxT()){
-				
-				maximo = PARAM.getMaxT();
-			
-			}
-			
-		}
-		 		
-		int tam = ALEAT.getFromInterval(minimo, maximo);
-				
-		int [] tirada = ALEAT.extractNmarbles(tam);
-		
-		return tirada;
-	}
+	
 	
 }

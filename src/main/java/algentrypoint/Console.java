@@ -57,7 +57,7 @@ public class Console {
 
 				TriGen TRIGEN = TriGen.getInstance();
 
-				TriGenBuilder.buildTriGen(control.getImplementation());
+				TriGenBuilder.getInstance().buildTriGen(control.getImplementation());
 
 				// Launch
 
@@ -109,34 +109,24 @@ public class Console {
 				LOG.info("DONE!");
 
 			} catch (IOException | WrongContolException | InvalidImplementationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (WrongOptionsException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

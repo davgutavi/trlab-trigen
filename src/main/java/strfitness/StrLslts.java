@@ -24,11 +24,11 @@ public class StrLslts implements FitnessStrategy  {
 
 		AlgorithmDataset dataset = (AlgorithmConfiguration.getInstance()).getData();		
 		
-		double[][][] individualData = TriclusterUtilities.buildGTCView(individual, dataset);
+		double[][][] individualData = TriclusterUtilities.getInstance().buildGTCView(individual, dataset);
 		
-		double [][] slopesAngles = FitnessUtilities.buildTableOfAngles(individualData);
+		double [][] slopesAngles = FitnessUtilities.getInstance().buildTableOfAngles(individualData);
 				
-		List<Double> delta = FitnessUtilities.buildTableOfDifferencies(slopesAngles);
+		List<Double> delta = FitnessUtilities.getInstance().buildTableOfDifferencies(slopesAngles);
 
 		return StatUtils.mean(Conversions.fromListOfDoubleToArray(delta));
 	}

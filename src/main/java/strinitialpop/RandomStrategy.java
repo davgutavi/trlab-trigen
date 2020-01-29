@@ -33,9 +33,9 @@ public class RandomStrategy implements InitialPopStrategy {
 			int numeroCondiciones = ALEATORIOS.getFromInterval(PARAM.getMinC(), PARAM.getMaxC());
 			int numeroTiempos     = ALEATORIOS.getFromInterval(PARAM.getMinT(), PARAM.getMaxT());
 			
-			Collection<Integer> g = TriclusterUtilities.getDispersedRandomComponent(numeroGenes,DATOS.getGenesBag());
-			Collection<Integer> c = TriclusterUtilities.getDispersedRandomComponent(numeroCondiciones,DATOS.getSamplesBag());
-			Collection<Integer> t = TriclusterUtilities.getDispersedRandomComponent(numeroTiempos,DATOS.getTimesBag());
+			Collection<Integer> g = TriclusterUtilities.getInstance().getDispersedRandomComponent(numeroGenes,DATOS.getGenesBag());
+			Collection<Integer> c = TriclusterUtilities.getInstance().getDispersedRandomComponent(numeroCondiciones,DATOS.getSamplesBag());
+			Collection<Integer> t = TriclusterUtilities.getInstance().getDispersedRandomComponent(numeroTiempos,DATOS.getTimesBag());
 			
 			AlgorithmIndividual nuevo = null;
 			try {

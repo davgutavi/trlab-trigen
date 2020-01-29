@@ -13,7 +13,12 @@ import algcore.TriGen;
 
 public class TriGenBuilder {
 
-	public static void buildTriGen(Implementation implementation)
+	static private TriGenBuilder singleton = new TriGenBuilder();
+	private TriGenBuilder() {}
+	public static TriGenBuilder getInstance() {return singleton;}
+	
+	
+	public void buildTriGen(Implementation implementation)
 			throws InstantiationException, IllegalAccessException,
 			ClassNotFoundException {
 
@@ -48,7 +53,7 @@ public class TriGenBuilder {
 
 	}
 
-	public static DataHierarchy buildDataHierarchyV2(String type, int geneSize,
+	public DataHierarchy buildDataHierarchyV2(String type, int geneSize,
 			int sampleSize, int timeSize) throws InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
 

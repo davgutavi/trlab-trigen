@@ -35,7 +35,7 @@ public class HierarchycalTimeSeriesStrategy  implements InitialPopStrategy {
 			List<Integer> c =  JER.getHierarchicalListOfSamples(numeroCondiciones);
 			
 			int coordenadaTiempo = ALEATORIOS.getFromInterval(0, DATOS.getTimeSize() - 1);
-			Collection<Integer> t = TriclusterUtilities.getIntervalComponent(coordenadaTiempo,numeroTiempos,DATOS.getTimeSize());
+			Collection<Integer> t = TriclusterUtilities.getInstance().getIntervalComponent(coordenadaTiempo,numeroTiempos,DATOS.getTimeSize());
 
 			AlgorithmIndividual nuevo = null;
 			try {

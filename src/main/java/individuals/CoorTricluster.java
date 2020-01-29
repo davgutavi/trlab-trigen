@@ -6,11 +6,17 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import utils.TextUtilities;
 import algcore.AlgorithmIndividual;
 
 public class CoorTricluster extends AlgorithmIndividual {
 	
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LoggerFactory.getLogger(CoorTricluster.class);
 	
 	private List<Integer> lgenes;
 	private List<Integer> lsamples;
@@ -20,6 +26,9 @@ public class CoorTricluster extends AlgorithmIndividual {
 	@Override
 	public void initialize(Collection<Integer> genes, Collection<Integer> samples, Collection<Integer> times) {
 		
+		
+		
+//		LOG.debug("genes = "+genes.toString());
 		this.genes    = fromCollectionToList(genes);
 		this.samples  = fromCollectionToList(samples);
 		this.times    = fromCollectionToList(times);

@@ -18,6 +18,8 @@ import algutils.TriclusterUtilities;
  */
 
 public class StrLsl implements FitnessStrategy  {
+	
+	
 
 	public double calculate(AlgorithmIndividual individual) {
 
@@ -25,36 +27,36 @@ public class StrLsl implements FitnessStrategy  {
 		
 		AlgorithmDataset dataset = (AlgorithmConfiguration.getInstance()).getData();		
 		
-		List<double[][][]> transformaciones = TriclusterUtilities.original(individual, dataset);
+		List<double[][][]> transformaciones = TriclusterUtilities.getInstance().original(individual, dataset);
 		
 		//////////VISTA GC (Genes-Condiciones)
 	
-		double [][] angulosGC = FitnessUtilities.buildTableOfAngles(transformaciones.get(0));
+		double [][] angulosGC = FitnessUtilities.getInstance().buildTableOfAngles(transformaciones.get(0));
 		
 		//Angulos.imprimeTabla(angulosGC,"\nTabla de �ngulos vista GC\n");
 			
-		List<Double> diferenciasGC = FitnessUtilities.buildTableOfDifferencies(angulosGC);
+		List<Double> diferenciasGC = FitnessUtilities.getInstance().buildTableOfDifferencies(angulosGC);
 				
 		//Angulos.imprimeLista(diferenciasGC,"\nTabla de diferencias vista GC:\n");
 						
 		//////////VISTA GT (Genes-Tiempos)
 		
-		double [][] angulosGT = FitnessUtilities.buildTableOfAngles(transformaciones.get(1));
+		double [][] angulosGT = FitnessUtilities.getInstance().buildTableOfAngles(transformaciones.get(1));
 				
 		//Angulos.imprimeTabla(angulosGT,"\nTabla de �ngulos vista GT\n");
 		
-		List<Double> diferenciasGT = FitnessUtilities.buildTableOfDifferencies(angulosGT);
+		List<Double> diferenciasGT = FitnessUtilities.getInstance().buildTableOfDifferencies(angulosGT);
 											
 		//Angulos.imprimeLista(diferenciasGT,"\nTabla de diferencias vista GT:\n");
 		
 		
 		/////////VISTA TG (Tiempos-Genes)
 		
-		double [][] angulosTG = FitnessUtilities.buildTableOfAngles(transformaciones.get(2));
+		double [][] angulosTG = FitnessUtilities.getInstance().buildTableOfAngles(transformaciones.get(2));
 				
 		//Angulos.imprimeTabla(angulosTG,"\nTabla de �ngulos vista TG\n");
 		
-		List<Double> diferenciasTG = FitnessUtilities.buildTableOfDifferencies(angulosTG);
+		List<Double> diferenciasTG = FitnessUtilities.getInstance().buildTableOfDifferencies(angulosTG);
 											
 		//Angulos.imprimeLista(diferenciasGT,"\nTabla de diferencias vista TG:\n");
 				

@@ -28,24 +28,12 @@ public class RelaxedCrossover implements Crossover {
 		
 		for (int i = 0; i < numberOfChildren; i++) {
 						
-			//**before
-			//Tricluster[] padres = selecciona_pareja_reproductora(base);
-			//**before
-			
-			//**now
 			AlgorithmIndividual[] padres = getReproductivePair(selectedPopulation);
-			//**now
-					
-			
 			AlgorithmIndividual padre = padres[0];
 			AlgorithmIndividual madre = padres[1];
 			AlgorithmIndividual [] hijos = relajado.cross(padre, madre,trigen.getIndividualClassName());
 			r.add(hijos[0]);
 		}
-		
-		//**before
-		//r.addAll(seleccion);
-		//**before
 		
 		return r;
 

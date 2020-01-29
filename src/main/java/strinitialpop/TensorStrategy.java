@@ -37,7 +37,7 @@ public class TensorStrategy implements InitialPopStrategy {
 			int tamC = ALEATORIOS.getFromInterval(PARAM.getMinC(), PARAM.getMaxC());
 			int tamT = ALEATORIOS.getFromInterval(PARAM.getMinT(), PARAM.getMaxT());
 
-			int[] radios = TriclusterUtilities.getTensorLimits(coordenadaGen, coordenadaCondicion, coordenadaTiempo,
+			int[] radios = TriclusterUtilities.getInstance().getTensorLimits(coordenadaGen, coordenadaCondicion, coordenadaTiempo,
 					tamG, tamC, tamT, DATOS.getGenSize(), DATOS.getSampleSize(), DATOS.getTimeSize());
 
 			Collection<Integer> genes = new LinkedList<Integer>();

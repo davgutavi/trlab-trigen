@@ -69,7 +69,7 @@ public class FootBridge {
 		PARAM.setConcurrency(con);
 		PARAM.setThreads(nt);
 
-		DataHierarchy jerarquia = TriGenBuilder
+		DataHierarchy jerarquia = TriGenBuilder.getInstance()
 				.buildDataHierarchyV2(control.getImplementation()
 						.getDataHierarchy(),
 						control.getDataset().getGeneSize(), control

@@ -24,28 +24,28 @@ public class StrMsl implements FitnessStrategy  {
 		
 		AlgorithmDataset dataset = (AlgorithmConfiguration.getInstance()).getData();		
 		
-		List<double[][][]> transformaciones = TriclusterUtilities.original(individual, dataset);
+		List<double[][][]> transformaciones = TriclusterUtilities.getInstance().original(individual, dataset);
 				
 		//////////VISTA GC (Genes-Condiciones)
 			
-		double [][][] angulosGC = FitnessUtilities.buildAnglesCubeT1(transformaciones.get(0));
-		List<Double> diferenciasGC = FitnessUtilities.buildTableOfDifferencies(angulosGC);
+		double [][][] angulosGC = FitnessUtilities.getInstance().buildAnglesCubeT1(transformaciones.get(0));
+		List<Double> diferenciasGC = FitnessUtilities.getInstance().buildTableOfDifferencies(angulosGC);
 				
 		//Angulos.imprimeCubo (angulosGC,"\nCubo de �ngulos vista GC\n");
 		//Angulos.imprimeLista(diferenciasGC,"\nTabla de diferencias vista GC:\n");
 		
 		//////////VISTA GT (Genes-Tiempos)	
 		
-		double [][][] angulosGT = FitnessUtilities.buildAnglesCubeT1(transformaciones.get(1));
-		List<Double> diferenciasGT = FitnessUtilities.buildTableOfDifferencies(angulosGT);
+		double [][][] angulosGT = FitnessUtilities.getInstance().buildAnglesCubeT1(transformaciones.get(1));
+		List<Double> diferenciasGT = FitnessUtilities.getInstance().buildTableOfDifferencies(angulosGT);
 		
 		//Angulos.imprimeCubo (angulosGT,"\nCubo de �ngulos vista GT\n");
 		//Angulos.imprimeLista(diferenciasGT,"\nTabla de diferencias vista GT:\n");
 		
 		//////////VISTA TG (Tiempos-Genes)	
 		
-		double [][][] angulosTG = FitnessUtilities.buildAnglesCubeT1(transformaciones.get(2));
-		List<Double> diferenciasTG = FitnessUtilities.buildTableOfDifferencies(angulosTG);
+		double [][][] angulosTG = FitnessUtilities.getInstance().buildAnglesCubeT1(transformaciones.get(2));
+		List<Double> diferenciasTG = FitnessUtilities.getInstance().buildTableOfDifferencies(angulosTG);
 		
 		//Angulos.imprimeCubo (angulosTG,"\nCubo de �ngulos vista TG\n");
 		//Angulos.imprimeLista(diferenciasTG,"\nTabla de diferencias vista TG:\n");

@@ -27,11 +27,11 @@ public class RandomTimeSeriesStrategy implements InitialPopStrategy {
 			int numeroCondiciones = ALEATORIOS.getFromInterval(PARAM.getMinC(), PARAM.getMaxC());
 			int numeroTiempos     = ALEATORIOS.getFromInterval(PARAM.getMinT(), PARAM.getMaxT());
 			
-			Collection<Integer> g = TriclusterUtilities.getDispersedRandomComponent(numeroGenes,DATOS.getGenesBag());
-			Collection<Integer> c = TriclusterUtilities.getDispersedRandomComponent(numeroCondiciones,DATOS.getSamplesBag());
+			Collection<Integer> g = TriclusterUtilities.getInstance().getDispersedRandomComponent(numeroGenes,DATOS.getGenesBag());
+			Collection<Integer> c = TriclusterUtilities.getInstance().getDispersedRandomComponent(numeroCondiciones,DATOS.getSamplesBag());
 
 			int coordenadaTiempo = ALEATORIOS.getFromInterval(0, DATOS.getTimeSize() - 1);
-			Collection<Integer> t = TriclusterUtilities.getIntervalComponent(coordenadaTiempo,numeroTiempos,DATOS.getTimeSize());
+			Collection<Integer> t = TriclusterUtilities.getInstance().getIntervalComponent(coordenadaTiempo,numeroTiempos,DATOS.getTimeSize());
 						
 			AlgorithmIndividual nuevo = null;
 			try {

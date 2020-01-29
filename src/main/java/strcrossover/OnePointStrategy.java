@@ -3,6 +3,9 @@ package strcrossover;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import crossovers.CrossoverStrategy;
 import algcore.AlgorithmConfiguration;
 import algcore.AlgorithmIndividual;
@@ -11,6 +14,9 @@ import algcore.TriGen;
 import algutils.AlgorithmRandomUtilities;
 
 public class OnePointStrategy implements CrossoverStrategy {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LoggerFactory.getLogger(OnePointStrategy.class);
 
 	public AlgorithmIndividual[] cross(AlgorithmIndividual father, AlgorithmIndividual mother, String individualClassName) {
 				
@@ -53,7 +59,7 @@ public class OnePointStrategy implements CrossoverStrategy {
 		AlgorithmIndividual individuo = null;
 		
 		try {
-			
+			LOG.debug("INdname="+individualClassName);
 			individuo = (AlgorithmIndividual) (Class.forName(individualClassName)).newInstance();
 			
 			individuo.initialize(g,c,t);
@@ -69,7 +75,7 @@ public class OnePointStrategy implements CrossoverStrategy {
 	
 	
 	private Collection<Integer> buildComponent (AlgorithmIndividual father, AlgorithmIndividual mother,
-			int fatherIndex,int motherIndex, int componentType, int descendantType){
+			int fatherIndex, int motherIndex, int componentType, int descendantType){
 		
 		AlgorithmConfiguration PARAM = AlgorithmConfiguration.getInstance();
 		AlgorithmDataset      DATOS = PARAM.getData();

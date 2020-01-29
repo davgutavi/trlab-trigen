@@ -65,7 +65,7 @@ public class TriGenGuiTask extends SwingWorker<List<AlgorithmIndividual>, List<A
 		LOG.info("Implementation:\n" + control.getImplementation() + "\n");
 
 		TriGen trigen = TriGen.getInstance();
-		TriGenBuilder.buildTriGen(control.getImplementation());
+		TriGenBuilder.getInstance().buildTriGen(control.getImplementation());
 		Calendar now1 = Calendar.getInstance();
 
 		LOG.info("Executing algoritm:");
