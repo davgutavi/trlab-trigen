@@ -47,11 +47,11 @@ public class TimeSeriesStrategy implements CrossoverStrategy {
 		
 		r[0] = TriclusterUtilities.getInstance().buildIndividual(childGenes[0],childConditions[0],childTimes[0],individualClassName,
 				"from crossover ["+((TriGen.getInstance()).getOngoingGenerationIndex()+1)+"]");
-		LOG.debug("Hijo construido");
+		
 		
 		r[1] = TriclusterUtilities.getInstance().buildIndividual(childGenes[1],childConditions[1],childTimes[1],individualClassName,
 				"from crossover ["+((TriGen.getInstance()).getOngoingGenerationIndex()+1)+"]");
-		LOG.debug("Hija construida");
+		
 	
 //		LOG.debug("Hijo:"+r[0]);
 //		LOG.debug("Hija:"+r[1]);

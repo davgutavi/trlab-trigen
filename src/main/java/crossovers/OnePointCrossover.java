@@ -30,14 +30,8 @@ public class OnePointCrossover implements Crossover {
 		
 		for (int i = 0; i < remainderCrossings[0]; i++) {
 
-			//**BEFORE
-			//AlgorithmIndividual[] parents = getReproductivePair(basisPopulation);
-			//**BEFORE
-			
-			//**NOW
 			AlgorithmIndividual[] parents = getReproductivePair(selectedPopulation);
-			//**NOW
-			
+						
 			AlgorithmIndividual father = parents[0];
 			
 			AlgorithmIndividual mother = parents[1];
@@ -52,14 +46,9 @@ public class OnePointCrossover implements Crossover {
 
 		if (remainderCrossings[1] == 1) {
 						
-			//**BEFORE
-			//AlgorithmIndividual[] parents = getReproductivePair(base);
-			//**BEFORE
 			
-			//**NOW
 			AlgorithmIndividual[] parents = getReproductivePair(selectedPopulation);
-			//**NOW
-						
+									
 			AlgorithmIndividual father = parents[0];
 			
 			AlgorithmIndividual mother = parents[1];
@@ -69,10 +58,6 @@ public class OnePointCrossover implements Crossover {
 			r.add(children[0]);
 		}
 	
-		//**BEFORE
-		//r.addAll(selectedPopulation);
-		//**BEFORE
-		
 		return r;
 
 	}

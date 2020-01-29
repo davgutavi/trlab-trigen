@@ -17,7 +17,7 @@ import algcore.AlgorithmIndividual;
 
 public class TriclusterUtilities {
 	
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(TriclusterUtilities.class);
 
 	static private TriclusterUtilities singleton = new TriclusterUtilities();
@@ -251,8 +251,10 @@ public class TriclusterUtilities {
 
 		AlgorithmRandomUtilities randomSupport = AlgorithmRandomUtilities.getInstance();
 
+//		LOG.debug("Pop size ="+population.size());
+		
 		randomSupport.newBag(population.size());
-
+		
 		AlgorithmIndividual[] r = new AlgorithmIndividual[2];
 
 		int fatherIndex = randomSupport.extractAmarble();
@@ -493,7 +495,7 @@ public class TriclusterUtilities {
 			LOG.debug("from = "+from+",to = "+to);
 			
 			// Series temporales consecutivas
-			if ((to-from)<=0) {
+			if ((to-from)<0) {
 				
 				LOG.debug("-------------- HUECO CONSECUTIVO ");
 				LOG.debug("Componente padre = "+fatherComponent);

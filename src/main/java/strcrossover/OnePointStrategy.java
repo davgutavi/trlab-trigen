@@ -15,7 +15,7 @@ import algutils.AlgorithmRandomUtilities;
 
 public class OnePointStrategy implements CrossoverStrategy {
 	
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(OnePointStrategy.class);
 
 	public AlgorithmIndividual[] cross(AlgorithmIndividual father, AlgorithmIndividual mother, String individualClassName) {
