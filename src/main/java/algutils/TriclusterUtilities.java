@@ -16,7 +16,7 @@ import algcore.AlgorithmDataset;
 import algcore.AlgorithmIndividual;
 
 public class TriclusterUtilities {
-	
+
 //	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(TriclusterUtilities.class);
 
@@ -58,7 +58,7 @@ public class TriclusterUtilities {
 	}
 
 	public double[][][] buildGTCView(AlgorithmIndividual tricluster, AlgorithmDataset dataset) {
-		
+
 		return buildCube(tricluster.getGenes(), tricluster.getTimes(), tricluster.getSamples(), dataset, 3);
 
 	}
@@ -85,7 +85,7 @@ public class TriclusterUtilities {
 				int k = 0;
 
 				int ejex = (ieje.next()).intValue();
-				
+
 				Iterator<Integer> iser = series.iterator();
 
 				while (iser.hasNext()) {
@@ -252,9 +252,9 @@ public class TriclusterUtilities {
 		AlgorithmRandomUtilities randomSupport = AlgorithmRandomUtilities.getInstance();
 
 //		LOG.debug("Pop size ="+population.size());
-		
+
 		randomSupport.newBag(population.size());
-		
+
 		AlgorithmIndividual[] r = new AlgorithmIndividual[2];
 
 		int fatherIndex = randomSupport.extractAmarble();
@@ -298,28 +298,27 @@ public class TriclusterUtilities {
 		return ALEAT.extractNmarbles(tam);
 	}
 
+	public Collection<Integer>[] buildOnePointComponents(Collection<Integer> fatherComponent,
+			Collection<Integer> motherComponent, int minL, int maxL, int datasetComponentSize) {
 
-	
-	public Collection<Integer>[] buildOnePointComponents (Collection<Integer> fatherComponent, Collection<Integer> motherComponent, int minL, int maxL, int datasetComponentSize){
-			
 		@SuppressWarnings("unchecked")
 		Collection<Integer>[] childrensComponents = new Collection[2];
-		
-		
-		int[] cutIndexes = getIndexesFromComponent(fatherComponent.size(),motherComponent.size(),minL);
 
-		List<Integer> sonComponent = componentByIndexes(fatherComponent.toArray(new Integer[0]),motherComponent.toArray(new Integer[0]),0,cutIndexes[0],cutIndexes[1],motherComponent.size());
-		chekSizes(sonComponent,minL,maxL,datasetComponentSize);
+		int[] cutIndexes = getIndexesFromComponent(fatherComponent.size(), motherComponent.size(), minL);
+
+		List<Integer> sonComponent = componentByIndexes(fatherComponent.toArray(new Integer[0]),
+				motherComponent.toArray(new Integer[0]), 0, cutIndexes[0], cutIndexes[1], motherComponent.size());
+		chekSizes(sonComponent, minL, maxL, datasetComponentSize);
 		Collections.sort(sonComponent);
-			
-		
-		List<Integer> daughterComponent = componentByIndexes(fatherComponent.toArray(new Integer[0]),motherComponent.toArray(new Integer[0]),cutIndexes[0], fatherComponent.size(),0,cutIndexes[1]);
-		chekSizes(daughterComponent,minL,maxL,datasetComponentSize);
+
+		List<Integer> daughterComponent = componentByIndexes(fatherComponent.toArray(new Integer[0]),
+				motherComponent.toArray(new Integer[0]), cutIndexes[0], fatherComponent.size(), 0, cutIndexes[1]);
+		chekSizes(daughterComponent, minL, maxL, datasetComponentSize);
 		Collections.sort(daughterComponent);
-		
-		childrensComponents[0]=sonComponent;
-		childrensComponents[1]=daughterComponent;
-		
+
+		childrensComponents[0] = sonComponent;
+		childrensComponents[1] = daughterComponent;
+
 //		LOG.debug("\n");
 //		LOG.debug("Componente Padre = "+fatherComponent.toString());
 //		LOG.debug("Componente Madre = "+motherComponent.toString());
@@ -327,71 +326,72 @@ public class TriclusterUtilities {
 //		LOG.debug("Componente Hijo = "+sonComponent.toString());
 //		LOG.debug("Componente Hija = "+daughterComponent.toString());
 //		LOG.debug("\n");
-		
+
 		return childrensComponents;
-	
+
 	}
-	
-		
-	private List<Integer> componentByIndexes (Integer [] fatherComponent, Integer[] motherComponent, int lowerFather, int upperFather, int lowerMother, int upperMother){
-		
+
+	private List<Integer> componentByIndexes(Integer[] fatherComponent, Integer[] motherComponent, int lowerFather,
+			int upperFather, int lowerMother, int upperMother) {
+
 		List<Integer> r = new LinkedList<Integer>();
-		
+
 		for (int j = lowerFather; j < upperFather; j++) {
 			Integer n = new Integer(fatherComponent[j]);
-			if (!r.contains(n)) r.add(n);
+			if (!r.contains(n))
+				r.add(n);
 		}
-		
+
 		for (int j = lowerMother; j < upperMother; j++) {
-			
+
 			Integer n = new Integer(motherComponent[j]);
-			if (!r.contains(n)) r.add(n);
-			
+			if (!r.contains(n))
+				r.add(n);
+
 		}
-				
+
 		return r;
-		
+
 	}
-	
-	private void chekSizes (List<Integer> component, int minL, int maxL, int datasetComponentSize) {
-		
+
+	private void chekSizes(List<Integer> component, int minL, int maxL, int datasetComponentSize) {
+
 		AlgorithmRandomUtilities rndUtils = AlgorithmRandomUtilities.getInstance();
-		
+
 		int difMin = minL - component.size();
 		int difMax = component.size() - maxL;
-		
+
 		if (difMin > 0) {
-			
+
 			rndUtils.newBag(datasetComponentSize);
-		
+
 			for (int i = 0; i < difMin; i++) {
-				
+
 				int bola = rndUtils.extractAmarble();
 				Integer coordenada = new Integer(bola);
-				
+
 				while (component.contains(coordenada)) {
-					
+
 					bola = rndUtils.extractAmarble();
 					coordenada = new Integer(bola);
 				}
-				
+
 				component.add(coordenada);
 			}
 		}
 
 		if (difMax > 0) {
-			
+
 			rndUtils.newBag(component.size());
-			
+
 			for (int i = 0; i < difMax; i++) {
-				
+
 				int bola = rndUtils.extractAmarble();
 				component.remove(bola);
 			}
 		}
-		
+
 	}
-	
 
 	private int[] getIndexesFromComponent(int fatherSize, int motherSize, int minL) {
 
@@ -456,159 +456,157 @@ public class TriclusterUtilities {
 
 	}
 
-	
-	public Collection<Integer>[] buildTimeSeriesComponents (Collection<Integer> fatherComponent, Collection<Integer> motherComponent, int minL, int maxL){
-		
+	public Collection<Integer>[] buildTimeSeriesComponents(Collection<Integer> fatherComponent,
+			Collection<Integer> motherComponent, int minL, int maxL) {
+
 		@SuppressWarnings("unchecked")
-		Collection<Integer>[] childrensComponents = new Collection[2];	
-		
+		Collection<Integer>[] childrensComponents = new Collection[2];
+
 		Set<Integer> f = new HashSet<Integer>(fatherComponent);
 		Set<Integer> m = new HashSet<Integer>(motherComponent);
-		
+
 		Set<Integer> intersection = new HashSet<Integer>(f);
 		intersection.retainAll(m);
-		
+
 		if (!intersection.isEmpty()) {
-			
-			LOG.debug("-------------- INTERSECCIÓN");
-			
+
+//			LOG.debug("-------------- INTERSECCIÓN");
+
 			List<Integer> aux = new LinkedList<Integer>(intersection);
 			Collections.sort(aux);
-			
-			LOG.debug("Componente resultado = "+aux);
-			
-			checkTimeSeriesLimits(aux,minL,maxL);	
-			
+
+//			LOG.debug("Componente resultado = " + aux);
+
+			checkTimeSeriesLimits(aux, minL, maxL);
+
 			childrensComponents[0] = aux;
 			childrensComponents[1] = aux;
-			
-		}
-		else{
-						
+
+		} else {
+
 			List<Integer> lf = new ArrayList<Integer>(fatherComponent);
 			List<Integer> lm = new ArrayList<Integer>(motherComponent);
-			
-			int from = Math.min(lf.get(lf.size()-1).intValue(), lm.get(lm.size()-1).intValue())+1;
-			int to = Math.max(lf.get(0).intValue(),lm.get(0).intValue())-1;
-			
-			LOG.debug("-------------- HUECOS");
-			LOG.debug("from = "+from+",to = "+to);
-			
+
+			int from = Math.min(lf.get(lf.size() - 1).intValue(), lm.get(lm.size() - 1).intValue()) + 1;
+			int to = Math.max(lf.get(0).intValue(), lm.get(0).intValue()) - 1;
+
+//			LOG.debug("-------------- HUECOS");
+//			LOG.debug("from = " + from + ",to = " + to);
+
 			// Series temporales consecutivas
-			if ((to-from)<0) {
-				
-				LOG.debug("-------------- HUECO CONSECUTIVO ");
-				LOG.debug("Componente padre = "+fatherComponent);
-				LOG.debug("Componente madre = "+motherComponent);
-				
+			if ((to - from) < 0) {
+
+//				LOG.debug("-------------- HUECO CONSECUTIVO ");
+//				LOG.debug("Componente padre = " + fatherComponent);
+//				LOG.debug("Componente madre = " + motherComponent);
+
 				List<Integer> aux = new LinkedList<Integer>(lf);
-				
+
 				aux.addAll(lm);
 				Collections.sort(aux);
-				
-				LOG.debug("Componente resultado = "+aux);
-				
-				checkTimeSeriesLimits(aux,minL,maxL);			
-				
-				childrensComponents[0] = aux;
-				childrensComponents[1] = aux;
-			
-				
-				
-			
-			}
-			else {
-				
-				LOG.debug("-------------- HUECO NORMAL ");
-				LOG.debug("Componente padre = "+fatherComponent);
-				LOG.debug("Componente madre = "+motherComponent);
-				
-				
-				
-				List<Integer> aux = new LinkedList<Integer>();
-			
-				for (int i = from;i<=to;i++)
-					aux.add(new Integer(i));
-				
-				LOG.debug("Componente resultado = "+aux);
-			
-				checkTimeSeriesLimits(aux,minL,maxL);	
-				
-				childrensComponents[0] = aux;
-				childrensComponents[1] = aux;
-				
-							
-			
-			}
-				
-		}
-		
 
-		
-		
-	 	return childrensComponents;
-	
-	}
-	
-	private void checkTimeSeriesLimits (List<Integer> ts, int minL, int maxL) {
-		
-		if (ts.size()<minL) {
-			
-			LOG.debug("************ Añadir");
-			int from = ts.get(ts.size()-1)+1;
-			int to = from+(minL-ts.size()-1);
-			LOG.debug("from = "+from);
-			LOG.debug("to = "+to);
-			for (int i=from;i<=to;i++)
-				ts.add(new Integer(i));
-			LOG.debug("Componente corregida= "+ts);
-		
+//				LOG.debug("Componente resultado = " + aux);
+
+				checkTimeSeriesLimits(aux, minL, maxL);
+
+				childrensComponents[0] = aux;
+				childrensComponents[1] = aux;
+
+			} else {
+
+//				LOG.debug("-------------- HUECO NORMAL ");
+//				LOG.debug("Componente padre = " + fatherComponent);
+//				LOG.debug("Componente madre = " + motherComponent);
+
+				List<Integer> aux = new LinkedList<Integer>();
+
+				for (int i = from; i <= to; i++)
+					aux.add(new Integer(i));
+
+//				LOG.debug("Componente resultado = " + aux);
+
+				checkTimeSeriesLimits(aux, minL, maxL);
+
+				childrensComponents[0] = aux;
+				childrensComponents[1] = aux;
+
+			}
+
 		}
-		
-		else if (ts.size()>maxL) {
-			
-			int n = ts.size()-maxL;
-			
-			for (int i=0;i<n;i++)
-				((LinkedList<Integer>) ts).removeLast();
-			
-			LOG.debug("************ Quitar "+n+" elementos");
-			LOG.debug("Componente corregida= "+ts);				
-		}	
-		
-		
-		
-			
+
+		return childrensComponents;
+
 	}
-	
-	
+
+	private void checkTimeSeriesLimits(List<Integer> ts, int minL, int maxL) {
+
+		if (ts.size() < minL) {
+
+//			LOG.debug("************ Añadir");
+			int from = ts.get(ts.size() - 1) + 1;
+			int to = from + (minL - ts.size() - 1);
+//			LOG.debug("from = " + from);
+//			LOG.debug("to = " + to);
+			for (int i = from; i <= to; i++)
+				ts.add(new Integer(i));
+//			LOG.debug("Componente corregida= " + ts);
+
+		}
+
+		else if (ts.size() > maxL) {
+
+			int n = ts.size() - maxL;
+
+			for (int i = 0; i < n; i++)
+				((LinkedList<Integer>) ts).removeLast();
+
+//			LOG.debug("************ Quitar " + n + " elementos");
+//			LOG.debug("Componente corregida= " + ts);
+		}
+
+	}
+
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	
 // <<<<<<<<<<<<<<<<<<<<<<<<< Crossover utilities <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
 // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	
-	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
-	// >>>>>>>>>>>>>>>>>>>>>>>>> Building individuals >>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	 public AlgorithmIndividual buildIndividual (Collection<Integer>  g, Collection<Integer>  c, Collection<Integer>  t, String individualClassName, String entryLog){
-			AlgorithmIndividual individuo = null;
-			try {
-				
+	// >>>>>>>>>>>>>>>>>>>>>>>>> Building individuals >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public AlgorithmIndividual buildIndividual(Collection<Integer> g, Collection<Integer> c, Collection<Integer> t,
+			String individualClassName, String entryLog) {
+		AlgorithmIndividual individuo = null;
+		try {
+
 //				LOG.debug("Class = "+individualClassName);
-				individuo = (AlgorithmIndividual) (Class.forName(individualClassName)).newInstance();
+			individuo = (AlgorithmIndividual) (Class.forName(individualClassName)).newInstance();
 //				LOG.debug("g = "+g);
 //				LOG.debug("c = "+c);
 //				LOG.debug("t = "+t);
-				individuo.initialize(g,c,t);
-				individuo.addEntry(entryLog);
-			} 
-			catch (InstantiationException e) {e.printStackTrace();} 
-			catch (IllegalAccessException e) {e.printStackTrace();} 
-			catch (ClassNotFoundException e) {e.printStackTrace();}
-			
-			return individuo;
+			individuo.initialize(g, c, t);
+			individuo.addEntry(entryLog);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
-	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<	
-	// <<<<<<<<<<<<<<<<<<<<<<<<< Building individuals <<<<<<<<<<<<<<<<<<<<<<<<<<<<< 
+
+		return individuo;
+	}
 	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// <<<<<<<<<<<<<<<<<<<<<<<<< Building individuals <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// >>>>>>>>>>>>>>>>>>>>>>>>> Mutation utilities >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	
+	
+	
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// <<<<<<<<<<<<<<<<<<<<<<<<< Mutation utilities <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 }

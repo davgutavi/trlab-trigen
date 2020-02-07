@@ -19,10 +19,10 @@ import strmutation.TimeSeriesRemoveBothStrategy;
 import strmutation.TimeSeriesRemoveLeftStrategy;
 import strmutation.TimeSeriesRemoveRightStrategy;
 
-public class TimeSeriesMutation implements Mutation {
+public class TimeSeriesRelaxedMutation implements Mutation {
 	
 	@SuppressWarnings("unused")
-	private static final Logger LOG = LoggerFactory.getLogger(TimeSeriesMutation.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TimeSeriesRelaxedMutation.class);
 
 	private MutationStrategy insertG;
 	private MutationStrategy removeG;
@@ -40,7 +40,7 @@ public class TimeSeriesMutation implements Mutation {
 	private MutationStrategy removeR;
 	private MutationStrategy removeB;
 		
-	public TimeSeriesMutation() {
+	public TimeSeriesRelaxedMutation() {
 		 
 		insertG = new GenInsertionStrategy();
 		removeG = new GenRemovalStrategy();
@@ -64,35 +64,29 @@ public class TimeSeriesMutation implements Mutation {
 		
 		AlgorithmRandomUtilities randomSupport = AlgorithmRandomUtilities.getInstance();
 		
-		int op = randomSupport.getFromInterval(1,3);
+		int op = randomSupport.getFromInterval(1,12);
 		
 		if (op==1) 
 			insertG.alter(individual);
 		else if (op==2)
 			removeG.alter(individual);
-		else
-			changeG.alter(individual);
-		
-		op = randomSupport.getFromInterval(1,3);
-		
-		if (op==1) 
-			insertC.alter(individual);
-		else if (op==2)
-			removeC.alter(individual);
-		else
-			changeC.alter(individual);
-		
-		op = randomSupport.getFromInterval(1,6);
-		
-		if (op==1) 
-			insertL.alter(individual);
-		else if (op==2)
-			insertR.alter(individual);
 		else if (op==3)
-			insertB.alter(individual);
-		else if (op==4)
-			removeL.alter(individual);
+			changeG.alter(individual);
+		else if (op==4) 
+			insertC.alter(individual);
 		else if (op==5)
+			removeC.alter(individual);
+		else if (op==6)
+			changeC.alter(individual);		
+		else if (op==7) 
+			insertL.alter(individual);
+		else if (op==8)
+			insertR.alter(individual);
+		else if (op==9)
+			insertB.alter(individual);
+		else if (op==10)
+			removeL.alter(individual);
+		else if (op==11)
 			removeR.alter(individual);
 		else
 			removeB.alter(individual);
