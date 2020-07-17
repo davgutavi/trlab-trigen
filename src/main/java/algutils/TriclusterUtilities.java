@@ -9,8 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import algcore.AlgorithmDataset;
 import algcore.AlgorithmIndividual;
@@ -18,7 +18,7 @@ import algcore.AlgorithmIndividual;
 public class TriclusterUtilities {
 
 //	@SuppressWarnings("unused")
-	private static final Logger LOG = LoggerFactory.getLogger(TriclusterUtilities.class);
+//	private static final Logger LOG = LoggerFactory.getLogger(TriclusterUtilities.class);
 
 	static private TriclusterUtilities singleton = new TriclusterUtilities();
 
@@ -28,6 +28,10 @@ public class TriclusterUtilities {
 	public static TriclusterUtilities getInstance() {
 		return singleton;
 	}
+	
+	
+	
+	
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
 // >>>>>>>>>>>>>>>>>>>>>>>>> Fitness functions transformations >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
@@ -153,6 +157,20 @@ public class TriclusterUtilities {
 		res[3] = xlim[1];
 		res[4] = tlim[0];
 		res[5] = tlim[1];
+
+		return res;
+	}
+	
+	public int[] getTensor2DLimits(int yCoor, int xCoor, int yLen, int xLen, int nR, int nC) {
+
+		int[] res = new int[4];
+		int[] ylim = getCoordinateInterval(yCoor, yLen, nR);
+		int[] xlim = getCoordinateInterval(xCoor, xLen, nC);
+
+		res[0] = ylim[0];
+		res[1] = ylim[1];
+		res[2] = xlim[0];
+		res[3] = xlim[1];
 
 		return res;
 	}

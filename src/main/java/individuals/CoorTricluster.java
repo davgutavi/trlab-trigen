@@ -1,6 +1,5 @@
 package individuals;
 
-import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -9,7 +8,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import utils.TextUtilities;
 import algcore.AlgorithmIndividual;
 
 public class CoorTricluster extends AlgorithmIndividual {
@@ -111,14 +109,16 @@ public class CoorTricluster extends AlgorithmIndividual {
 
 		String r = "";
 		
-		DecimalFormat f = TextUtilities.getDecimalFormat('.', "0.000");
+		r = "["+genes.size()+","+samples.size()+","+times.size()+"]";
 		
-		r = "["+genes.size()+","+samples.size()+","+times.size()+"] "
-				+"("+lgenes.get(0)+"-"+lgenes.get(lgenes.size()-1)+") "
-				+"("+lsamples.get(0)+"-"+lsamples.get(lsamples.size()-1)+") "
-				+"("+ltimes.get(0)+"-"+ltimes.get(ltimes.size()-1)+") "
-				+ " evaluated?="+evaluated+ " altered?="+altered+
-				" , FF = "+f.format(fitnessFunction)+" ["+f.format(fitness)+","+f.format(sizes)+","+f.format(overlapping)+"]";
+//		DecimalFormat f = TextUtilities.getDecimalFormat('.', "0.000");
+//		
+//		r = "["+genes.size()+","+samples.size()+","+times.size()+"] "
+//				+"("+lgenes.get(0)+"-"+lgenes.get(lgenes.size()-1)+") "
+//				+"("+lsamples.get(0)+"-"+lsamples.get(lsamples.size()-1)+") "
+//				+"("+ltimes.get(0)+"-"+ltimes.get(ltimes.size()-1)+") "
+//				+ " evaluated?="+evaluated+ " altered?="+altered+
+//				" , FF = "+f.format(fitnessFunction)+" ["+f.format(fitness)+","+f.format(sizes)+","+f.format(overlapping)+"]";
 			
 		return r;
 	}

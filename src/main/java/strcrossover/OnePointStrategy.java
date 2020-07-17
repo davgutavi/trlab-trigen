@@ -15,7 +15,7 @@ import algutils.AlgorithmRandomUtilities;
 
 public class OnePointStrategy implements CrossoverStrategy {
 	
-//	@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(OnePointStrategy.class);
 
 	public AlgorithmIndividual[] cross(AlgorithmIndividual father, AlgorithmIndividual mother, String individualClassName) {
@@ -50,6 +50,12 @@ public class OnePointStrategy implements CrossoverStrategy {
 		r[0] = (AlgorithmIndividual) hijo;
 		r[1] = (AlgorithmIndividual) hija;
 		
+		
+//		LOG.debug("--> Cross Padre: "+father);
+//		LOG.debug("--> Cross Madre: "+mother);
+//		LOG.debug("--> Cross Hijo: "+hijo);
+//		LOG.debug("--> Cross Hija: "+hija);
+		
 		return r;
 
 	}
@@ -59,7 +65,7 @@ public class OnePointStrategy implements CrossoverStrategy {
 		AlgorithmIndividual individuo = null;
 		
 		try {
-			LOG.debug("INdname="+individualClassName);
+			
 			individuo = (AlgorithmIndividual) (Class.forName(individualClassName)).newInstance();
 			
 			individuo.initialize(g,c,t);

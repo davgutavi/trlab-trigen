@@ -59,7 +59,7 @@ public class TriGenBuilder {
 
 		DataHierarchy j = (DataHierarchy) (Class.forName(type)).newInstance();
 
-		j.initializeDataHierarchy(geneSize, sampleSize, timeSize);
+		j.initialize(geneSize, sampleSize, timeSize);
 
 		return j;
 

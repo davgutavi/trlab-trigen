@@ -1,13 +1,11 @@
 package strinitialpop;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import algcore.AlgorithmConfiguration;
-import algcore.AlgorithmDataset;
 import algcore.AlgorithmIndividual;
-import algcore.DataHierarchy;
 import algutils.AlgorithmRandomUtilities;
 import algutils.TriclusterUtilities;
 import initialpops.InitialPopStrategy;
@@ -16,44 +14,34 @@ public class HierarchycalTimeSeriesStrategy  implements InitialPopStrategy {
 
 	public List<AlgorithmIndividual> generateIndividuals(int numberOfIndividuals, String individualClassName) {
 		
-		AlgorithmRandomUtilities ALEATORIOS = AlgorithmRandomUtilities.getInstance();
-		AlgorithmConfiguration PARAM      = AlgorithmConfiguration.getInstance();
-		DataHierarchy  JER        = PARAM.getDataHierarchy();
-		AlgorithmDataset DATOS = PARAM.getData();
+		List<AlgorithmIndividual> l = new ArrayList<AlgorithmIndividual>(numberOfIndividuals);		
 		
-		List<AlgorithmIndividual> l = new LinkedList<AlgorithmIndividual>();
+		ArrayList<ArrayList<Collection<Integer>>> jcoor = AlgorithmConfiguration.getInstance().
+				getDataHierarchy().build_gs_coorinates(numberOfIndividuals);
 
-		for (int n = 0; n < numberOfIndividuals; n++) {
+		for(ArrayList<Collection<Integer>> gst:jcoor) {
 
-			int numeroGenes       = ALEATORIOS.getFromInterval(PARAM.getMinG(), PARAM.getMaxG());
-			int numeroCondiciones = ALEATORIOS.getFromInterval(PARAM.getMinC(), PARAM.getMaxC());
-			int numeroTiempos     = ALEATORIOS.getFromInterval(PARAM.getMinT(), PARAM.getMaxT());
-
-						
-			List<Integer> g =  JER.getHierarchicalListOfGenes(numeroGenes);
+			Collection<Integer> lg = gst.get(0);
+			Collection<Integer> lc = gst.get(1);
 			
-			List<Integer> c =  JER.getHierarchicalListOfSamples(numeroCondiciones);
+			int nTime = AlgorithmRandomUtilities.getInstance().
+					getFromInterval(AlgorithmConfiguration.getInstance().getMinT(), AlgorithmConfiguration.getInstance().getMaxT());
+							
+			int coordenadaTiempo = AlgorithmRandomUtilities.getInstance().getFromInterval(0, 
+					AlgorithmConfiguration.getInstance().getData().getTimeSize() - 1);
 			
-			int coordenadaTiempo = ALEATORIOS.getFromInterval(0, DATOS.getTimeSize() - 1);
-			Collection<Integer> t = TriclusterUtilities.getInstance().getIntervalComponent(coordenadaTiempo,numeroTiempos,DATOS.getTimeSize());
+			Collection<Integer> lt = TriclusterUtilities.getInstance().getIntervalComponent(coordenadaTiempo,nTime,
+					AlgorithmConfiguration.getInstance().getData().getTimeSize());
 
-			AlgorithmIndividual nuevo = null;
-			try {
-				nuevo = (AlgorithmIndividual) (Class.forName(individualClassName)).newInstance();
-				nuevo.initialize(g,c,t);
-				nuevo.addEntry("from initial population: hierarchical");
-				l.add(nuevo);
-			}
-			catch (InstantiationException e) {e.printStackTrace();}
-			catch (IllegalAccessException e) {e.printStackTrace();}
-			catch (ClassNotFoundException e) {e.printStackTrace();}
+			AlgorithmIndividual newIndividual = TriclusterUtilities.getInstance().
+					buildIndividual(lg,lc,lt,individualClassName,"from initial population: hierarchical time series");
+			
+			l.add(newIndividual);
 		
-		}// for
+		}
 
 		return l;
 
-	}// procedimiento
+	}	
 
-	
-
-}// clase
+}

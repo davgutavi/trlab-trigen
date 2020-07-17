@@ -190,6 +190,8 @@ public class TriGen {
 				scom = format.format(com);
 				System.out.print("["+(ongoingSolutionIndex+1)+","+(ongoingGenerationIndex+1)+"] "+scom+"% "+JER.getPercentage());
 				
+				LOG.debug("****> Entrada: "+population);
+				
 				if (!canceled){
 				System.out.print("--evaluation");
 				evaluate(population);
@@ -202,6 +204,8 @@ public class TriGen {
 				parents = select(population);
 				}			
 				
+				LOG.debug("****> Seleccionados: "+population);
+				
 				rop++;
 				
 				if (!canceled){
@@ -209,12 +213,16 @@ public class TriGen {
 				children = crossover(population,parents);
 				}
 				
+				LOG.debug("****> Cruces: "+children);
+				
 				rop++;
 				
 				if (!canceled){
 				System.out.print("--mutation\n");
 				mutatedChildren = mutate(children);
 				}
+				
+				LOG.debug("****> Mutados: "+mutatedChildren);
 				
 				rop++;
 								
@@ -261,7 +269,7 @@ public class TriGen {
 			
 			if (!canceled){
 			System.out.println("["+(ongoingSolutionIndex + 1)+"] "+scom+"%: update data hierarchy");
-			JER.updateDataHierarchy(best);
+			JER.update(best);
 			}
 			
 			rop++;
