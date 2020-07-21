@@ -13,6 +13,7 @@ package algcore;
  */
 
 
+
 public class AlgorithmConfiguration {
 
 	/**
