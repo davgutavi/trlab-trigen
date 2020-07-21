@@ -11,6 +11,7 @@ package algcore;
  * @author David Gutiérrez-Avilés
  *
  */
+
 public class AlgorithmConfiguration {
 
 	/**
