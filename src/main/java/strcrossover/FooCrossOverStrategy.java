@@ -14,6 +14,8 @@ public class FooCrossOverStrategy implements CrossoverStrategy {
 
 	public AlgorithmIndividual[] cross(AlgorithmIndividual father, AlgorithmIndividual mother, String individualClassName) {
 				
+		
+		
 		AlgorithmIndividual[] r = new AlgorithmIndividual[2];
 		
 		
