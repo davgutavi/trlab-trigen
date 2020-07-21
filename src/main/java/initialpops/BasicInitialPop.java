@@ -29,26 +29,22 @@ public class BasicInitialPop implements InitialPop {
 
 	public List<AlgorithmIndividual> produceInitialPop() {
 
-		TriGen     trigen = TriGen.getInstance();
-		
-		AlgorithmConfiguration config  = AlgorithmConfiguration.getInstance();
-		
 		List<AlgorithmIndividual> l = null;
 
-		if (trigen.getOngoingSolutionIndex() == 0) {
+		if (TriGen.getInstance().getOngoingSolutionIndex() == 0) {
 			
-			l = totalmente_aleatoria.generateIndividuals(config.getI(),trigen.getIndividualClassName());
+			l = totalmente_aleatoria.generateIndividuals(AlgorithmConfiguration.getInstance().getI(),TriGen.getInstance().getIndividualClassName());
 		}
 
 		else {
 
-			int n_aleatorio = (int) (config.getAle() * config.getI());
+			int n_aleatorio = (int) (AlgorithmConfiguration.getInstance().getAle() * AlgorithmConfiguration.getInstance().getI());
 
-			int n_jerarquico = config.getI() - n_aleatorio;
+			int n_jerarquico = AlgorithmConfiguration.getInstance().getI() - n_aleatorio;
 
-			l = totalmente_aleatoria.generateIndividuals(n_aleatorio, trigen.getIndividualClassName());
+			l = totalmente_aleatoria.generateIndividuals(n_aleatorio, TriGen.getInstance().getIndividualClassName());
 			
-			List<AlgorithmIndividual> aux = jerarquica.generateIndividuals(n_jerarquico, trigen.getIndividualClassName());
+			List<AlgorithmIndividual> aux = jerarquica.generateIndividuals(n_jerarquico, TriGen.getInstance().getIndividualClassName());
 
 			l.addAll(aux);
 

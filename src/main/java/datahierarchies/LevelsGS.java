@@ -22,20 +22,23 @@ import algcore.AlgorithmIndividual;
 import algcore.DataHierarchy;
 import algcore.TriGen;
 import algutils.AlgorithmRandomUtilities;
+import algutils.Point;
 import general.RandomSupport;
 
 public class LevelsGS implements DataHierarchy {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LevelsGS.class);
 
-	private SortedSet<Par> jerarquia;
+	private SortedSet<Point> jerarquia;
 	private List<Integer> genes;
 	private List<Integer> condiciones;
 	private boolean disponible;
 	private AlgorithmIndividual resto;
 
 	public LevelsGS() {
-
+		jerarquia = new TreeSet<Point>();
+		genes = new LinkedList<Integer>();
+		condiciones = new LinkedList<Integer>();
 	}
 
 	public void initialize(int geneSize, int sampleSize, int timeSize) {
@@ -92,14 +95,13 @@ public class LevelsGS implements DataHierarchy {
 		return null;
 	}
 
-	public String getPercentage() {
+	public double getPercentage() {
 
-		AlgorithmConfiguration PARAM = AlgorithmConfiguration.getInstance();
-		AlgorithmDataset DATA = PARAM.getData();
-		int tam = jerarquia.size();
-		int total = DATA.getGenSize() * DATA.getSampleSize();
-		float numero = 100.0f * tam / total;
-		return "J = " + numero + " %";
+		double tam = jerarquia.size();
+		double total =  AlgorithmConfiguration.getInstance().getData().getGenSize()*
+				AlgorithmConfiguration.getInstance().getData().getSampleSize();
+		double numero = 100.0 * tam / total;
+		return numero;
 
 	}
 
@@ -129,18 +131,18 @@ public class LevelsGS implements DataHierarchy {
 		res += "genes or rows ( " + genes.size() + " ) : " + genes + "\n";
 		res += "conditions or columns ( " + condiciones.size() + " ) : " + condiciones + "\n";
 
-		Iterator<Par> it = jerarquia.iterator();
+		Iterator<Point> it = jerarquia.iterator();
 
 		int i = 1;
 
 		while (it.hasNext()) {
 
-			Par p = it.next();
+			Point p = it.next();
 			if (i == 20) {
-				res += "[" + p.i + "," + p.j + "]\n";
+				res += "[" + p.getX() + "," + p.getY() + "]\n";
 				i = 1;
 			} else {
-				res += "[" + p.i + "," + p.j + "] ";
+				res += "[" + p.getX() + "," + p.getY() + "] ";
 				i++;
 			}
 
@@ -152,11 +154,8 @@ public class LevelsGS implements DataHierarchy {
 
 	private void initializeDataHierarchy(int geneSize, int sampleSize) {
 
-		jerarquia = new TreeSet<Par>();
-		genes = new LinkedList<Integer>();
-		condiciones = new LinkedList<Integer>();
 		disponible = true;
-
+		
 		for (int i = 0; i < geneSize; i++) {
 
 			Integer auxi = new Integer(i);
@@ -166,7 +165,7 @@ public class LevelsGS implements DataHierarchy {
 			for (int j = 0; j < sampleSize; j++) {
 
 				Integer auxj = new Integer(j);
-				Par auxp = new Par(i, j);
+				Point auxp = new Point(i, j);
 				if (!condiciones.contains(auxj))
 					condiciones.add(auxj);
 				jerarquia.add(auxp);
@@ -193,7 +192,7 @@ public class LevelsGS implements DataHierarchy {
 
 				int j = (it2.next()).intValue();
 
-				Par aux = new Par(i, j);
+				Point aux = new Point(i, j);
 
 				jerarquia.remove(aux);
 
@@ -204,16 +203,16 @@ public class LevelsGS implements DataHierarchy {
 
 	private void updateLists() {
 
-		Iterator<Par> it = jerarquia.iterator();
+		Iterator<Point> it = jerarquia.iterator();
 
 		genes.clear();
 		condiciones.clear();
 
 		while (it.hasNext()) {
 
-			Par par = it.next();
-			Integer i = new Integer(par.i);
-			Integer j = new Integer(par.j);
+			Point par = it.next();
+			Integer i = new Integer(par.getX());
+			Integer j = new Integer(par.getY());
 
 			if (!genes.contains(i))
 				genes.add(i);
@@ -280,7 +279,7 @@ public class LevelsGS implements DataHierarchy {
 
 		int demandadas = geneSize * sampleSize;
 
-		Set<Par> elegidos = new HashSet<Par>();
+		Set<Point> elegidos = new HashSet<Point>();
 
 		int faltan = demandadas;
 
@@ -293,7 +292,7 @@ public class LevelsGS implements DataHierarchy {
 			int g = genes.get(ig);
 			int c = condiciones.get(ic);
 
-			Par par = new Par(g, c);
+			Point par = new Point(g, c);
 
 			// System.out.println("jerarquia.contains(par) = "+jerarquia.contains(par));
 
@@ -390,7 +389,7 @@ public class LevelsGS implements DataHierarchy {
 
 	}// construyeGenesYcondiciones
 
-	private List<Integer>[] fromCellToList(Set<Par> cells) {
+	private List<Integer>[] fromCellToList(Set<Point> cells) {
 
 		@SuppressWarnings("unchecked")
 		List<Integer>[] res = new List[2];
@@ -399,13 +398,13 @@ public class LevelsGS implements DataHierarchy {
 
 		if (cells.size() != 0) {
 
-			Iterator<Par> it = cells.iterator();
+			Iterator<Point> it = cells.iterator();
 
 			while (it.hasNext()) {
 
-				Par par = it.next();
-				Integer i = new Integer(par.i);
-				Integer j = new Integer(par.j);
+				Point par = it.next();
+				Integer i = new Integer(par.getX());
+				Integer j = new Integer(par.getY());
 
 				if (!r1.contains(i))
 					r1.add(i);
@@ -424,66 +423,5 @@ public class LevelsGS implements DataHierarchy {
 
 	}
 
-	// ******************************************************************************************
-	// AUXILIARES
-	// ******************************************************************************************
 
-	@SuppressWarnings("rawtypes")
-	private class Par implements Comparable {
-
-		public int i;
-		public int j;
-
-		public Par(int i, int j) {
-			this.i = i;
-			this.j = j;
-		}
-
-		public boolean equals(Object o) {
-
-			Par otro = (Par) o;
-
-			boolean res = false;
-
-			if ((this.i == otro.i) && (this.j == otro.j))
-				res = true;
-
-			return res;
-		}
-
-		public int compareTo(Object o) {
-
-			Par otro = (Par) o;
-
-			int res = 0;
-
-			if (this.i > otro.i) {
-				res = 1;
-			} else if (this.i < otro.i) {
-				res = -1;
-			} else {
-
-				if (this.j > otro.j) {
-					res = 1;
-				} else if (this.j < otro.j) {
-					res = -1;
-				} else {
-					res = 0;
-				}
-
-			}
-
-			return res;
-		}
-
-		public String toString() {
-
-			String res = "";
-			res = "[" + i + "," + j + "]";
-			return res;
-
-		}
-
-	}// Par
-
-}// clase
+}

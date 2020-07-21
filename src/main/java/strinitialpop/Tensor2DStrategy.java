@@ -21,8 +21,7 @@ public class Tensor2DStrategy  implements InitialPopStrategy {
 					getFromInterval(0, AlgorithmConfiguration.getInstance().getData().getGenSize() - 1);
 			int coordenadaCondicion = AlgorithmRandomUtilities.getInstance().
 					getFromInterval(0, AlgorithmConfiguration.getInstance().getData().getSampleSize() - 1);
-			int coordenadaTiempo = AlgorithmRandomUtilities.getInstance().
-					getFromInterval(0, AlgorithmConfiguration.getInstance().getData().getTimeSize() - 1);
+		
 
 			int tamG = AlgorithmRandomUtilities.getInstance().
 					getFromInterval(AlgorithmConfiguration.getInstance().getMinG(), 
@@ -30,14 +29,11 @@ public class Tensor2DStrategy  implements InitialPopStrategy {
 			int tamC = AlgorithmRandomUtilities.getInstance().
 					getFromInterval(AlgorithmConfiguration.getInstance().getMinC(), 
 							AlgorithmConfiguration.getInstance().getMaxC());
-			int tamT = AlgorithmRandomUtilities.getInstance().
-					getFromInterval(AlgorithmConfiguration.getInstance().getMinT(), 
-							AlgorithmConfiguration.getInstance().getMaxT());
+	
 
-			int[] radios = TriclusterUtilities.getInstance().getTensorLimits(coordenadaGen, coordenadaCondicion, coordenadaTiempo,
-					tamG, tamC, tamT, AlgorithmConfiguration.getInstance().getData().getGenSize(), 
-					AlgorithmConfiguration.getInstance().getData().getSampleSize(), 
-					AlgorithmConfiguration.getInstance().getData().getTimeSize());
+			int[] radios = TriclusterUtilities.getInstance().getTensor2DLimits(coordenadaGen, coordenadaCondicion,
+					tamG, tamC, AlgorithmConfiguration.getInstance().getData().getGenSize(), 
+					AlgorithmConfiguration.getInstance().getData().getSampleSize());
 			
 			Collection<Integer> genes = new LinkedList<Integer>();
 			for (int g = radios[0]; g <= radios[1]; g++)

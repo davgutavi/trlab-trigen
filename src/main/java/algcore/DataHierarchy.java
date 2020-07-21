@@ -46,7 +46,7 @@ public interface DataHierarchy {
 	 * 
 	 * @return the percentage of visited coordinates
 	 */
-	public String getPercentage ();
+	public double getPercentage ();
 	
 	// Legacy
 	public Map<Integer, Integer> getGenHierarchy();

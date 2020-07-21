@@ -9,6 +9,7 @@ import algcore.AlgorithmConfiguration;
 import algcore.AlgorithmIndividual;
 import algcore.InitialPop;
 import algcore.TriGen;
+import strinitialpop.HierarchycalStrategy;
 import strinitialpop.Tensor2DStrategy;
 
 public class TensorGSInitialPop  implements InitialPop {
@@ -17,21 +18,38 @@ public class TensorGSInitialPop  implements InitialPop {
 	private static final Logger LOG = LoggerFactory.getLogger(TensorGSInitialPop.class);
 
 	private InitialPopStrategy tensor2D;
+	private InitialPopStrategy hierarchy;
 
 	public TensorGSInitialPop() {
 
 		tensor2D = new Tensor2DStrategy ();
+		hierarchy = new HierarchycalStrategy();
 
 	}
 
 	public List<AlgorithmIndividual> produceInitialPop() {
-
-		List<AlgorithmIndividual> l = tensor2D.generateIndividuals(AlgorithmConfiguration.getInstance().getI(),
+		
+		int random_tensors = (int) (AlgorithmConfiguration.getInstance().getAle() * 
+				AlgorithmConfiguration.getInstance().getI());
+		
+		int guided_tensors = AlgorithmConfiguration.getInstance().getI() - random_tensors;
+	
+		List<AlgorithmIndividual> initialPop = tensor2D.generateIndividuals(random_tensors,
 				TriGen.getInstance().getIndividualClassName());
 		
-//		LOG.debug("--> Initial Pop: "+l);
+		List<AlgorithmIndividual> hierarchyPop =  hierarchy.generateIndividuals(guided_tensors,
+				TriGen.getInstance().getIndividualClassName());
 		
-		return l;
+		initialPop.addAll(hierarchyPop);
+		
+		int rest = AlgorithmConfiguration.getInstance().getI() - initialPop.size();
+		
+		if (rest>0)
+			initialPop.addAll(tensor2D.generateIndividuals(rest,
+					TriGen.getInstance().getIndividualClassName()));
+		
+			
+		return initialPop;
 
 	}
 

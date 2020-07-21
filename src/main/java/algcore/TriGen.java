@@ -152,6 +152,9 @@ public class TriGen {
 		AlgorithmConfiguration PARAM = AlgorithmConfiguration.getInstance();
 		DataHierarchy JER = PARAM.getDataHierarchy(); 
 				
+		LOG.debug("Initial hierarchy");
+		LOG.debug("\n"+JER);
+		
 		canceled = false;	
 		double rop = 0;
 		double top = PARAM.getN()*(4+(4*PARAM.getG()));
@@ -172,7 +175,7 @@ public class TriGen {
 			com = (rop/top)*100;			
 			checkTaskState(com);			
 			scom = format.format(com);			
-			System.out.println("\n["+(ongoingSolutionIndex + 1)+"] "+scom+"% "+JER.getPercentage());
+			System.out.println("\n["+(ongoingSolutionIndex + 1)+"] "+scom+"% J="+format.format(JER.getPercentage())+"%");
 						
 			ongoingGenerationIndex = 0;
 			
@@ -188,7 +191,7 @@ public class TriGen {
 				com = (rop/top)*100;				
 				checkTaskState(com);
 				scom = format.format(com);
-				System.out.print("["+(ongoingSolutionIndex+1)+","+(ongoingGenerationIndex+1)+"] "+scom+"% "+JER.getPercentage());
+				System.out.print("["+(ongoingSolutionIndex+1)+","+(ongoingGenerationIndex+1)+"] "+scom+"% J="+format.format(JER.getPercentage())+"%");
 				
 				LOG.debug("****> Entrada: "+population);
 				
@@ -271,6 +274,11 @@ public class TriGen {
 			System.out.println("["+(ongoingSolutionIndex + 1)+"] "+scom+"%: update data hierarchy");
 			JER.update(best);
 			}
+			
+			LOG.debug("Best: "+best);
+			
+			LOG.debug("Hierarchy");
+			LOG.debug("\n"+JER);
 			
 			rop++;
 						

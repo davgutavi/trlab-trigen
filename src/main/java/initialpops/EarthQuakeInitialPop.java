@@ -12,7 +12,6 @@ import strinitialpop.EarthQuakeStrategy;
 import strinitialpop.RandomStrategy;
 import algcore.AlgorithmConfiguration;
 import algcore.AlgorithmIndividual;
-import algcore.DataHierarchy;
 import algcore.InitialPop;
 import algcore.TriGen;
 
@@ -31,33 +30,30 @@ public class EarthQuakeInitialPop implements InitialPop {
 
 	public List<AlgorithmIndividual> produceInitialPop() {
 
-		
-		AlgorithmConfiguration PARAM = AlgorithmConfiguration.getInstance();
-		TriGen TRI = TriGen.getInstance();
-		DataHierarchy JER = PARAM.getDataHierarchy();
-		
-		float pAleatorio = PARAM.getAle(); 
+		float pAleatorio = AlgorithmConfiguration.getInstance().getAle(); 
 		
 		List<AlgorithmIndividual> l = null;
 			
-		int totales = PARAM.getI();
+		int totales = AlgorithmConfiguration.getInstance().getI();
 		
-		boolean disponible = JER.isAvailable();
+		boolean disponible = AlgorithmConfiguration.getInstance().getDataHierarchy().isAvailable();
 		
 		if (disponible){
 			
 			int aleatorio = (int)(pAleatorio*totales);
 			int jerarquicos = totales - aleatorio;
 		
-			l = jerarquicaTerremoto.generateIndividuals(jerarquicos,TRI.getIndividualClassName());
+			l = jerarquicaTerremoto.generateIndividuals(jerarquicos,
+					TriGen.getInstance().getIndividualClassName());
 			
-			List<AlgorithmIndividual> aux = totalmente_aleatoria.generateIndividuals(aleatorio, TRI.getIndividualClassName());
+			List<AlgorithmIndividual> aux = totalmente_aleatoria.generateIndividuals(aleatorio, 
+					TriGen.getInstance().getIndividualClassName());
 			
 			l.addAll(aux);
 					
 		}
 		else{
-			l = totalmente_aleatoria.generateIndividuals(totales, TRI.getIndividualClassName());
+			l = totalmente_aleatoria.generateIndividuals(totales, TriGen.getInstance().getIndividualClassName());
 		}
 		
 		return l;

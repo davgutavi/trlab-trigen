@@ -17,6 +17,8 @@ public class AlgorithmRandomUtilities {
 	
 	private Set<Integer> mainBag;
 	
+	private Set<Point> pointsBag;
+	
 	private List<Set<Integer>> server;
 	
 
@@ -61,6 +63,15 @@ public class AlgorithmRandomUtilities {
 		mainBag = new HashSet<Integer>();
 	}
 	
+	public void newPointsBag (){
+		pointsBag = new HashSet<Point>();
+	}
+	
+	public void newPointsBag (Set<Point> marbles){
+		pointsBag = new HashSet<Point>(marbles);
+	}
+	
+	//METER BOLAS
 		
 	public void putMarbles (Collection<Integer> marbles){
 		mainBag.addAll(marbles);
@@ -83,10 +94,18 @@ public class AlgorithmRandomUtilities {
 		(server.get(serverSlotIndex)).addAll(marbles);
 	}
 	
-	
+	public void putPointMarbles (Set<Point> bag){
+		
+		pointsBag.addAll(bag);
+		
+	}
 	
 	
 	//CONSULTAR INFORMACION DE LA BOLSA
+	
+	public int pointBagSize(){
+		return pointsBag.size();
+	}
 	
 	public int bagSize(){
 		return mainBag.size();
@@ -123,6 +142,7 @@ public class AlgorithmRandomUtilities {
 		}
 		
 	}
+
 		
 	//SACAR BOLAS
 	
@@ -191,6 +211,26 @@ public class AlgorithmRandomUtilities {
 			(server.get(serverSlotIndex)).remove(bola);
 			
 			res[i] = bola.intValue();
+		
+		}
+				
+		return res;
+		
+	}
+	
+	public Point[] extractNpointMarbles (int n){
+		
+		Point [] res = new Point [n];
+		
+		Object[] tirada = random.nextSample(pointsBag, n);
+		
+		for (int i=0;i<n;i++){
+			
+			Point bola = (Point) tirada [i];
+			
+			pointsBag.remove(bola);
+			
+			res[i] = bola;
 		
 		}
 				

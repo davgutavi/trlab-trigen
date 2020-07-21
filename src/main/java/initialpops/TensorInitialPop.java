@@ -33,26 +33,19 @@ public class TensorInitialPop implements InitialPop {
 
 	public List<AlgorithmIndividual> produceInitialPop() {
 
-		TriGen     TRIGEN = TriGen.getInstance();
-		AlgorithmConfiguration PARAM  = AlgorithmConfiguration.getInstance();
+			List<AlgorithmIndividual> l = null;
+
+		if (TriGen.getInstance().getOngoingSolutionIndex() == 0) {
+
+			int aleatorias = AlgorithmConfiguration.getInstance().getI()/2;
+			
+			int cubos      = AlgorithmConfiguration.getInstance().getI()-aleatorias;
+			
 		
-		List<AlgorithmIndividual> l = null;
-
-		if (TRIGEN.getOngoingSolutionIndex() == 0) {
-
-			int aleatorias = PARAM.getI()/2;
+			l = aleatoria.generateIndividuals(aleatorias,TriGen.getInstance().getIndividualClassName());
+		
 			
-			int cubos      = PARAM.getI()-aleatorias;
-			
-			//ANTES
-			//l = aleatoria.genera_individuos(PARAM.getNumIndividuosIniciales(),TRIGEN.getTipoIndividuo());
-			//ANTES
-			
-			//AHORA
-			l = aleatoria.generateIndividuals(aleatorias,TRIGEN.getIndividualClassName());
-			//AHORA
-			
-			List<AlgorithmIndividual> aux = tensores.generateIndividuals(cubos,TRIGEN.getIndividualClassName());
+			List<AlgorithmIndividual> aux = tensores.generateIndividuals(cubos,TriGen.getInstance().getIndividualClassName());
 			
 			l.addAll(aux);
 			
@@ -60,20 +53,20 @@ public class TensorInitialPop implements InitialPop {
 
 		else {
 
-			int n_aleatorio = (int) (PARAM.getAle() * PARAM.getI());
+			int n_aleatorio = (int) (AlgorithmConfiguration.getInstance().getAle() * AlgorithmConfiguration.getInstance().getI());
 			
 			int aleatorias = n_aleatorio/2;
 			int cubos      = n_aleatorio-aleatorias;
 						
-			int n_jerarquico = PARAM.getI() - n_aleatorio;
+			int n_jerarquico = AlgorithmConfiguration.getInstance().getI() - n_aleatorio;
 			
-			l = aleatoria.generateIndividuals(aleatorias, TRIGEN.getIndividualClassName());
+			l = aleatoria.generateIndividuals(aleatorias, TriGen.getInstance().getIndividualClassName());
 			
-			List<AlgorithmIndividual> aux = tensores.generateIndividuals(cubos,TRIGEN.getIndividualClassName());
+			List<AlgorithmIndividual> aux = tensores.generateIndividuals(cubos,TriGen.getInstance().getIndividualClassName());
 			
 			l.addAll(aux);
 			
-			List<AlgorithmIndividual> aux1 = jerarquica.generateIndividuals(n_jerarquico, TRIGEN.getIndividualClassName());
+			List<AlgorithmIndividual> aux1 = jerarquica.generateIndividuals(n_jerarquico, TriGen.getInstance().getIndividualClassName());
 			
 			l.addAll(aux1);
 

@@ -1,6 +1,5 @@
 package datahierarchies;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,7 +14,6 @@ import algcore.AlgorithmConfiguration;
 import algcore.AlgorithmIndividual;
 import algcore.DataHierarchy;
 import algutils.AlgorithmRandomUtilities;
-import utils.TextUtilities;
 
 public class LevelsGST implements DataHierarchy {
 
@@ -27,7 +25,9 @@ public class LevelsGST implements DataHierarchy {
 	
 
 	public LevelsGST() {
-
+		jerarquia_tiempos = new HashMap<Integer, Integer>();
+		jerarquia_genes = new HashMap<Integer, Integer>();
+		jerarquia_condiciones = new HashMap<Integer, Integer>();
 	}
 
 	@Override
@@ -136,9 +136,7 @@ public class LevelsGST implements DataHierarchy {
 
 		// CLAVE = la coordenada (tiempo,gen o condicion) VALOR = el nivel de la
 		// jerarquia
-		jerarquia_tiempos = new HashMap<Integer, Integer>();
-		jerarquia_genes = new HashMap<Integer, Integer>();
-		jerarquia_condiciones = new HashMap<Integer, Integer>();
+	
 
 		for (int i = 0; i < timeSize; i++) {
 			jerarquia_tiempos.put(new Integer(i), new Integer(0));
@@ -149,14 +147,6 @@ public class LevelsGST implements DataHierarchy {
 		for (int i = 0; i < sampleSize; i++) {
 			jerarquia_condiciones.put(new Integer(i), new Integer(0));
 		}
-
-		// cadena_jerarquia = "\nJerarquía Inicial:\n";
-		// cadena_jerarquia += Pantalla.imprimeJerarquia("Tiempos",
-		// jerarquia_tiempos);
-		// cadena_jerarquia += Pantalla.imprimeJerarquia("Condiciones",
-		// jerarquia_condiciones);
-		// cadena_jerarquia += Pantalla.imprimeJerarquia("Genes",
-		// jerarquia_genes);
 
 	}
 	
@@ -206,44 +196,21 @@ public class LevelsGST implements DataHierarchy {
 
 	public void update(AlgorithmIndividual solution) {
 
-		Iterator<Integer> it_tiempos = (solution.getTimes()).iterator();
-
-		while (it_tiempos.hasNext()) {
-
-			Integer k = it_tiempos.next();
-			Integer v = jerarquia_tiempos.get(k);
-			Integer nv = new Integer(v.intValue() + 1);
-			jerarquia_tiempos.put(k, nv);
-
-		}
-
-		Iterator<Integer> it_genes = (solution.getGenes()).iterator();
-
-		while (it_genes.hasNext()) {
-
-			Integer k = it_genes.next();
-			Integer v = jerarquia_genes.get(k);
-			Integer nv = new Integer(v.intValue() + 1);
-			jerarquia_genes.put(k, nv);
-
-		}
-
-		Iterator<Integer> it_condiciones = (solution.getSamples()).iterator();
-
-		while (it_condiciones.hasNext()) {
-
-			Integer k = it_condiciones.next();
-			Integer v = jerarquia_condiciones.get(k);
-			Integer nv = new Integer(v.intValue() + 1);
-			jerarquia_condiciones.put(k, nv);
-
-		}
+		
+		for (Integer t: solution.getTimes()) 			
+			jerarquia_tiempos.put(t, new Integer(jerarquia_tiempos.get(t).intValue()+1));
+		
+		for (Integer g: solution.getGenes()) 			
+			jerarquia_genes.put(g, new Integer(jerarquia_genes.get(g).intValue()+1));
+	
+		for (Integer c: solution.getSamples()) 			
+			jerarquia_condiciones.put(c, new Integer(jerarquia_condiciones.get(c).intValue()+1));
 
 
 	}// actualiza_jerarquia
 	
 
-	public String getPercentage() {
+	public double getPercentage() {
 		AlgorithmConfiguration param = AlgorithmConfiguration.getInstance();
 
 		int ng = (param.getData()).getGenSize();
@@ -290,9 +257,7 @@ public class LevelsGST implements DataHierarchy {
 		// LOG.debug("Sizes = "+ng+","+nc+","+nt);
 		double v = ((gcount + ccount + tcount) / (double) (ng + nc + nt)) * 100.0;
 
-		DecimalFormat f = TextUtilities.getDecimalFormat('.', "#.##");
-
-		return "J=" + f.format(v) + "%";
+		return v;
 	}
 
 	

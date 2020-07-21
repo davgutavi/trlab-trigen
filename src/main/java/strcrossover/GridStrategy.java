@@ -17,7 +17,7 @@ import crossovers.CrossoverStrategy;
 
 public class GridStrategy implements CrossoverStrategy {
 	
-//	@SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(GridStrategy.class);
 
 	public AlgorithmIndividual[] cross(AlgorithmIndividual father, AlgorithmIndividual mother, String individualClassName) {
@@ -26,14 +26,14 @@ public class GridStrategy implements CrossoverStrategy {
 		father.addEntry("father ["+((TriGen.getInstance()).getOngoingGenerationIndex()+1)+"]");		
 		mother.addEntry("mother ["+((TriGen.getInstance()).getOngoingGenerationIndex()+1)+"]");
 		
-		LOG.debug("");
-		LOG.debug(">>>> Cruce");
-		
-		LOG.debug("--> [F] X{"+father.getSampleSize()+"} = "+father.getSamples()+
-				" , Y{"+father.getGeneSize()+"} = "+father.getGenes());
-		LOG.debug("--> [M] X{"+mother.getSampleSize()+"} = "+mother.getSamples()+
-				" , Y{"+mother.getGeneSize()+"} = "+mother.getGenes());
-		
+//		LOG.debug("");
+//		LOG.debug(">>>> Cruce");
+//		
+//		LOG.debug("--> [F] X{"+father.getSampleSize()+"} = "+father.getSamples()+
+//				" , Y{"+father.getGeneSize()+"} = "+father.getGenes());
+//		LOG.debug("--> [M] X{"+mother.getSampleSize()+"} = "+mother.getSamples()+
+//				" , Y{"+mother.getGeneSize()+"} = "+mother.getGenes());
+//		
 		
 		Collection<Integer> child1_X = new LinkedList<Integer>();
 		Collection<Integer> child2_X = new LinkedList<Integer>();
@@ -71,7 +71,7 @@ public class GridStrategy implements CrossoverStrategy {
 		if(intersectionX.isEmpty()&&intersectionY.isEmpty()) {
 			// Sin solapamiento
 			
-			LOG.debug("Sin solapamiento");
+//			LOG.debug("Sin solapamiento");
 			
 			Set<Integer> auxBag = AlgorithmConfiguration.getInstance().getData().getSamplesBag();
 			auxBag.removeAll(father.getSamples());
@@ -121,7 +121,7 @@ public class GridStrategy implements CrossoverStrategy {
 			
 			// Solapamiento en Y
 			
-			LOG.debug("Solapamiento en Y");
+//			LOG.debug("Solapamiento en Y");
 			
 			int c1_center_Y = ((Integer) intersectionY.toArray()[0]).intValue();
 			int c2_center_Y = c1_center_Y;
@@ -162,7 +162,7 @@ public class GridStrategy implements CrossoverStrategy {
 			
 			// Solapamiento en X
 			
-			LOG.debug("Solapamiento en X");
+//			LOG.debug("Solapamiento en X");
 			
 			int c1_center_X = ((Integer) intersectionX.toArray()[0]).intValue();
 			int c2_center_X = c1_center_X;
@@ -202,7 +202,7 @@ public class GridStrategy implements CrossoverStrategy {
 		else {
 			// Solapamiento en las dos dimensiones	
 			
-			LOG.debug("Solapamiento en las dos dimensiones");
+//			LOG.debug("Solapamiento en las dos dimensiones");
 			
 			int c1_center_X = ((Integer) intersectionX.toArray()[0]).intValue();
 			int c2_center_X = c1_center_X;
@@ -236,10 +236,10 @@ public class GridStrategy implements CrossoverStrategy {
 				"from crossover ["+((TriGen.getInstance()).getOngoingGenerationIndex()+1)+"]");
 			
 	
-		LOG.debug("--> [C1] X{"+r[0].getSampleSize()+"} = "+r[0].getSamples()+
-				" , Y{"+r[0].getGeneSize()+"} = "+r[0].getGenes());
-		LOG.debug("--> [C2] X{"+r[1].getSampleSize()+"} = "+r[1].getSamples()+
-				" , Y{"+r[1].getGeneSize()+"} = "+r[1].getGenes());
+//		LOG.debug("--> [C1] X{"+r[0].getSampleSize()+"} = "+r[0].getSamples()+
+//				" , Y{"+r[0].getGeneSize()+"} = "+r[0].getGenes());
+//		LOG.debug("--> [C2] X{"+r[1].getSampleSize()+"} = "+r[1].getSamples()+
+//				" , Y{"+r[1].getGeneSize()+"} = "+r[1].getGenes());
 
 				
 		return r;

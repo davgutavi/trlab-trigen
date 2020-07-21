@@ -1,23 +1,19 @@
 package stoppingcriteria;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import algcore.AlgorithmConfiguration;
-import algcore.DataHierarchy;
 import algcore.StoppingCriterion;
 
 public class DepleteDataHierarchyStop implements StoppingCriterion {
+	
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LoggerFactory.getLogger(DepleteDataHierarchyStop.class);
 
 	public boolean checkCriterion() {
-		
-		
-		AlgorithmConfiguration PARAM = AlgorithmConfiguration.getInstance();
-		
-		DataHierarchy JER = PARAM.getDataHierarchy();
-		
-		boolean res  = JER.isAvailable();
-		
-		//System.out.println("********************************************************************"+res);
-		
-		return res;
+			
+		return AlgorithmConfiguration.getInstance().getDataHierarchy().isAvailable();
 	
 	}
 
