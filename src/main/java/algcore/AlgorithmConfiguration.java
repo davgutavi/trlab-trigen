@@ -1,5 +1,9 @@
 package algcore;
 
+
+
+
+
 /**
  *  
  * Configuration for <b>TriGen</b> algorithm.
@@ -11,7 +15,6 @@ package algcore;
  * @author David Gutiérrez-Avilés
  *
  */
-
 
 
 public class AlgorithmConfiguration {
