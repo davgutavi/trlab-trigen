@@ -1,6 +1,7 @@
 package datahierarchies;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -120,12 +121,17 @@ public class GridGS implements DataHierarchy {
 					AlgorithmConfiguration.getInstance().getData().getGenSize(),
 					AlgorithmConfiguration.getInstance().getData().getSampleSize());
 
+			LOG.debug("Radios: "+Arrays.toString(radios));
+			
 			for (int iy = radios[0]; iy <= radios[1]; iy++)
 				y.add(new Integer(iy));
 
 			for (int ix = radios[2]; ix <= radios[3]; ix++)
 				x.add(new Integer(ix));
 
+			LOG.debug("x: "+x);	
+			LOG.debug("y: "+y);
+			
 			components.add(y);
 			components.add(x);
 
@@ -133,6 +139,7 @@ public class GridGS implements DataHierarchy {
 			components.add(buildHierarchicalList(AlgorithmRandomUtilities.getInstance().getFromInterval(
 					AlgorithmConfiguration.getInstance().getMinT(), AlgorithmConfiguration.getInstance().getMaxT())));
 
+			LOG.debug("t: "+components.get(2));
 //			Collections.sort(x);
 //			Collections.sort(y);
 //			LOG.debug("X {"+x.size()+"}: "+x);
@@ -341,6 +348,8 @@ public class GridGS implements DataHierarchy {
 
 				for (int i = 0; i < faltan; i++)
 					res.add(new Integer(timeMarbles[i]));
+				
+				faltan = 0;
 
 			}
 
