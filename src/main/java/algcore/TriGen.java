@@ -281,13 +281,17 @@ public class TriGen {
 				LOG.debug("--update data hierarchy\n");
 				JER.update(best);
 			}
-
-			LOG.debug("\n>>>>>\n");
-			LOG.debug("Best: "+TriclusterUtilities.getInstance().individualToString(best)+"\n");
-			LOG.debug("\n");
-			LOG.debug("Hierarchy: \n");
-			LOG.debug(JER.toString());
-			LOG.debug("<<<<<\n");
+			
+			LOG.debug("\n>>>>> Last population: \n");
+			LOG.debug(TriclusterUtilities.getInstance().populationToString(population)+"\n");
+			LOG.debug("\n<<<<< Last population\n");
+			
+			LOG.debug("\n>>>>>Best: "+TriclusterUtilities.getInstance().individualToString(best)+"\n");
+		
+//			LOG.debug("\n");
+//			LOG.debug(">>>>>Hierarchy: \n");
+//			LOG.debug(JER.toString());
+//			LOG.debug("<<<<<Hierarchy\n");
 
 			rop++;
 
@@ -306,6 +310,8 @@ public class TriGen {
 		}
 		
 		LOG.info("\n");
+		
+		LOG.debug("Solutions:\n\n"+TriclusterUtilities.getInstance().populationToString(solutions)+"\n");
 		
 		return solutions;
 	}

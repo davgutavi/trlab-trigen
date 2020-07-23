@@ -84,7 +84,7 @@ public class GridGS implements DataHierarchy {
 
 	public ArrayList<ArrayList<Collection<Integer>>> build_gst_coorinates(int n) {
 		
-		LOG.debug("\n>>>>>GridGS.build_gst_coorinates\n");
+//		LOG.debug("\n>>>>>GridGS.build_gst_coorinates\n");
 
 		ArrayList<ArrayList<Collection<Integer>>> res = new ArrayList<ArrayList<Collection<Integer>>>(n);
 
@@ -94,8 +94,6 @@ public class GridGS implements DataHierarchy {
 		
 		
 		AlgorithmRandomUtilities.getInstance().newPointsBag(grid);
-		
-		
 		
 		Point[] centers = AlgorithmRandomUtilities.getInstance().extractNpointMarbles(nmarbles);
 
@@ -107,7 +105,7 @@ public class GridGS implements DataHierarchy {
 			List<Integer> x = new LinkedList<Integer>();
 			List<Integer> y = new LinkedList<Integer>();
 
-			LOG.debug("\nCenter: " + centers[i]+"\n");
+//			LOG.debug("\nCenter: " + centers[i]+"\n");
 
 			int x_center = centers[i].getX();
 			int y_center = centers[i].getY();
@@ -137,14 +135,14 @@ public class GridGS implements DataHierarchy {
 			components.add(buildHierarchicalList(AlgorithmRandomUtilities.getInstance().getFromInterval(
 					AlgorithmConfiguration.getInstance().getMinT(), AlgorithmConfiguration.getInstance().getMaxT())));
 
-			LOG.debug("x: "+x+" y:"+y+" t:"+components.get(2)+"\n");
+//			LOG.debug("x: "+x+" y:"+y+" t:"+components.get(2)+"\n");
 
 
 			res.add(components);
 
 		}
 		
-		LOG.debug("\n<<<<<GridGS.build_gst_coorinates\n\n");
+//		LOG.debug("\n<<<<<GridGS.build_gst_coorinates\n\n");
 
 		return res;
 	}

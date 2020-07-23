@@ -123,4 +123,6 @@ public class CoorTricluster extends AlgorithmIndividual {
 		return r;
 	}
 	
+	
+	
 }

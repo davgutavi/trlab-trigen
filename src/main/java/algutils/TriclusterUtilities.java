@@ -619,10 +619,10 @@ public class TriclusterUtilities {
 	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		// >>>>>>>>>>>>>>>>>>>>>>>>> Printing populations >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
-	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	// <<<<<<<<<<<<<<<<<<<<<<<<< Printing populations <<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
 	public String populationToString (List<AlgorithmIndividual> population) {
 		
@@ -657,7 +657,79 @@ public class TriclusterUtilities {
 		return r;
 	}
 	
-	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	// >>>>>>>>>>>>>>>>>>>>>>>>> Printing populations >>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// <<<<<<<<<<<<<<<<<<<<<<<<< Printing populations <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	
+	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>	
+	// >>>>>>>>>>>>>>>>>>>>>>>>> Solution Criterion >>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	public int commonXYcells (AlgorithmIndividual potentialIndividual, Set<Point> currentPoints) {
+		
+		Set<Point> intersection = new HashSet<Point>(currentPoints);
+		intersection.retainAll(toPoints(potentialIndividual));
+		
+		return intersection.size();
+			
+	}
+
+	
+	public int commonXYcells (AlgorithmIndividual potentialIndividual, List<AlgorithmIndividual> currentPopulation) {
+		
+		Set<Point> intersection = new HashSet<Point>(toPoints(currentPopulation));
+		intersection.retainAll(toPoints(potentialIndividual));
+		
+		return intersection.size();
+			
+	}
+	
+	
+	public int commonXYcells (AlgorithmIndividual a, AlgorithmIndividual b) {
+			
+		Set<Point> intersection= new HashSet<Point>(toPoints(a));
+		intersection.retainAll(toPoints(b));
+		
+		return intersection.size();
+			
+	}
+	
+	public Set<Point> toPoints (List<AlgorithmIndividual> currentPopulation){
+		
+		Set<Point> r = new HashSet<Point>();
+		
+		for (AlgorithmIndividual individual:currentPopulation) 
+			r.addAll(toPoints(individual));
+				
+		return r;
+	}
+	
+	
+
+	public Set<Point> toPoints (AlgorithmIndividual individual){
+		
+		Set<Point> r = new HashSet<Point>();
+		
+		for (Integer x:individual.getSamples())
+			for (Integer y:individual.getGenes())
+				r.add(new Point(x.intValue(),y.intValue()));
+				
+		return r;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// <<<<<<<<<<<<<<<<<<<<<<<<< Solution Criterion <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	
+	
 }

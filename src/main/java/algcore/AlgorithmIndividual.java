@@ -441,5 +441,35 @@ public abstract class AlgorithmIndividual implements Comparable<AlgorithmIndivid
 	public void addEntry(String entry) {
 		register.add(entry);
 	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AlgorithmIndividual other = (AlgorithmIndividual) obj;
+		if (genes == null) {
+			if (other.genes != null)
+				return false;
+		} else if (!genes.equals(other.genes))
+			return false;
+		if (samples == null) {
+			if (other.samples != null)
+				return false;
+		} else if (!samples.equals(other.samples))
+			return false;
+		if (times == null) {
+			if (other.times != null)
+				return false;
+		} else if (!times.equals(other.times))
+			return false;
+		return true;
+	}
+	
+	
 	
 }
