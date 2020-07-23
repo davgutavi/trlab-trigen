@@ -84,6 +84,8 @@ public class GridGS implements DataHierarchy {
 	}
 
 	public ArrayList<ArrayList<Collection<Integer>>> build_gst_coorinates(int n) {
+		
+		LOG.debug("\n>>>>>GridGS.build_gst_coorinates\n");
 
 		ArrayList<ArrayList<Collection<Integer>>> res = new ArrayList<ArrayList<Collection<Integer>>>(n);
 
@@ -106,7 +108,7 @@ public class GridGS implements DataHierarchy {
 			List<Integer> x = new LinkedList<Integer>();
 			List<Integer> y = new LinkedList<Integer>();
 
-			LOG.debug("Center: " + centers[i]);
+			LOG.debug("\nCenter: " + centers[i]+"\n");
 
 			int x_center = centers[i].getX();
 			int y_center = centers[i].getY();
@@ -121,7 +123,7 @@ public class GridGS implements DataHierarchy {
 					AlgorithmConfiguration.getInstance().getData().getGenSize(),
 					AlgorithmConfiguration.getInstance().getData().getSampleSize());
 
-			LOG.debug("Radios: "+Arrays.toString(radios));
+//			LOG.debug("Radios: "+Arrays.toString(radios)+"\n");
 			
 			for (int iy = radios[0]; iy <= radios[1]; iy++)
 				y.add(new Integer(iy));
@@ -129,9 +131,6 @@ public class GridGS implements DataHierarchy {
 			for (int ix = radios[2]; ix <= radios[3]; ix++)
 				x.add(new Integer(ix));
 
-			LOG.debug("x: "+x);	
-			LOG.debug("y: "+y);
-			
 			components.add(y);
 			components.add(x);
 
@@ -139,15 +138,14 @@ public class GridGS implements DataHierarchy {
 			components.add(buildHierarchicalList(AlgorithmRandomUtilities.getInstance().getFromInterval(
 					AlgorithmConfiguration.getInstance().getMinT(), AlgorithmConfiguration.getInstance().getMaxT())));
 
-			LOG.debug("t: "+components.get(2));
-//			Collections.sort(x);
-//			Collections.sort(y);
-//			LOG.debug("X {"+x.size()+"}: "+x);
-//			LOG.debug("Y {"+y.size()+"}: "+y);
+			LOG.debug("x: "+x+" y:"+y+" t:"+components.get(2)+"\n");
+
 
 			res.add(components);
 
 		}
+		
+		LOG.debug("\n<<<<<GridGS.build_gst_coorinates\n\n");
 
 		return res;
 	}

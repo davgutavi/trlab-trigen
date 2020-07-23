@@ -17,23 +17,29 @@ import alginterface.TriGenGuiTask;
 //import org.slf4j.LoggerFactory;
 
 import algutils.AlgorithmRandomUtilities;
+import algutils.TriclusterUtilities;
 import utils.TextUtilities;
 
 /**
- * <b>TriGen</b> algorithm class. It provides methods and tools to make experiments.
+ * <b>TriGen</b> algorithm class. It provides methods and tools to make
+ * experiments.
  * 
  * @author David Gutiérrez-Avilés
  */
 public class TriGen {
-	
+
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(TriGen.class);
 
 	static private TriGen singleton = new TriGen();
-	private TriGen() {}
-	public static TriGen getInstance() {return singleton;}
-	
-	
+
+	private TriGen() {
+	}
+
+	public static TriGen getInstance() {
+		return singleton;
+	}
+
 	/**
 	 * Individual class name field.
 	 */
@@ -43,37 +49,37 @@ public class TriGen {
 	 * Initial population operator field.
 	 */
 	private InitialPop initialPop;
-	
+
 	/**
 	 * Fitness function operator field.
 	 */
 	private FitnessFunction fitnessFunction;
-	
+
 	/**
 	 * Selection operator field.
 	 */
 	private Selection selection;
-	
+
 	/**
 	 * Crossover operator field.
 	 */
 	private Crossover crossover;
-		
+
 	/**
 	 * Mutation operator field.
 	 */
 	private Mutation mutation;
-	
+
 	/**
 	 * Solution criterion field.
 	 */
 	private SolutionCriterion solutionCriterion;
-	
+
 	/**
 	 * Stopping criterion field.
 	 */
 	private StoppingCriterion stoppingCriterion;
-	
+
 	/**
 	 * Solutions field.
 	 */
@@ -83,42 +89,41 @@ public class TriGen {
 	 * Ongoing solution index field.
 	 */
 	private int ongoingSolutionIndex;
-	
+
 	/**
 	 * Ongoing generation index field.
 	 */
 	private int ongoingGenerationIndex;
-	
+
 	/**
 	 * Ongoing evaluated individual field.
 	 */
 	private int ongoingEvaluatedIndividualIndex;
-	
+
 //	private String populationReport;
-	
+
 	private TriGenGuiTask task;
-	
+
 	private boolean canceled;
-	
-	//c : console, i: gui
+
+	// c : console, i: gui
 //	private char type;
 //	
-	
 
 	/**
 	 * Sets the {@link TriGen} algorithm state.
 	 * 
-	 * @param indClassName the individual class name
-	 * @param initPop the initial population operator
-	 * @param fitness the fitness function operator
-	 * @param selection the selection operator
-	 * @param crossover the crossover operator
-	 * @param mutation the mutation operator
-	 * @param solCriterion the solution criterion
+	 * @param indClassName  the individual class name
+	 * @param initPop       the initial population operator
+	 * @param fitness       the fitness function operator
+	 * @param selection     the selection operator
+	 * @param crossover     the crossover operator
+	 * @param mutation      the mutation operator
+	 * @param solCriterion  the solution criterion
 	 * @param stopCriterion the stopping criterion
 	 */
-	public void set(String indClassName, InitialPop initPop, FitnessFunction fitness,
-			Selection selection, Crossover crossover, Mutation mutation, SolutionCriterion solCriterion, StoppingCriterion stopCriterion) {
+	public void set(String indClassName, InitialPop initPop, FitnessFunction fitness, Selection selection,
+			Crossover crossover, Mutation mutation, SolutionCriterion solCriterion, StoppingCriterion stopCriterion) {
 
 		this.individualClassName = indClassName;
 
@@ -128,176 +133,183 @@ public class TriGen {
 		this.crossover = crossover;
 		this.mutation = mutation;
 		this.solutionCriterion = solCriterion;
-		
+
 		this.stoppingCriterion = stopCriterion;
 
 		this.solutions = new LinkedList<AlgorithmIndividual>();
 
 		this.ongoingSolutionIndex = 0;
-		
+
 		this.ongoingGenerationIndex = 0;
-		
+
 //		this.populationReport = "";
-		
+
 	}
 
 	/**
 	 * Runs <b>TriGen</b> algorithm previously settled.
 	 * 
-	 * @return the algorithm's run solutions as a {@link List} of {@link AlgorithmIndividual}.
+	 * @return the algorithm's run solutions as a {@link List} of
+	 *         {@link AlgorithmIndividual}.
 	 */
 
 	public List<AlgorithmIndividual> runAlgorithm() {
-		
+
 		AlgorithmConfiguration PARAM = AlgorithmConfiguration.getInstance();
-		DataHierarchy JER = PARAM.getDataHierarchy(); 
-				
-		LOG.debug("Initial hierarchy");
-		LOG.debug("\n"+JER);
+		DataHierarchy JER = PARAM.getDataHierarchy();
 		
-		canceled = false;	
+		LOG.debug("\n");
+		
+//		LOG.debug("Initial hierarchy: \n");
+//		LOG.debug(JER+"\n");
+
+		canceled = false;
 		double rop = 0;
-		double top = PARAM.getN()*(4+(4*PARAM.getG()));
+		double top = PARAM.getN() * (4 + (4 * PARAM.getG()));
 		double com = 0;
 		checkTaskState(com);
 		String scom = "";
 		Format format = TextUtilities.getDecimalFormat('.', "0.0");
-		
-		List<AlgorithmIndividual> population = null;		
+
+		List<AlgorithmIndividual> population = null;
 		List<AlgorithmIndividual> parents = null;
 		List<AlgorithmIndividual> children = null;
 		List<AlgorithmIndividual> mutatedChildren = null;
-		
+
 		ongoingSolutionIndex = 0;
-		
-		while (stoppingCriterion.checkCriterion() && !canceled) {	
-			
-			com = (rop/top)*100;			
-			checkTaskState(com);			
-			scom = format.format(com);			
-			System.out.println("\n["+(ongoingSolutionIndex + 1)+"] "+scom+"% J="+format.format(JER.getPercentage())+"%");
-						
+
+		while (stoppingCriterion.checkCriterion() && !canceled) {
+
+			com = (rop / top) * 100;
+			checkTaskState(com);
+			scom = format.format(com);
+			LOG.info("\nSolution " + (ongoingSolutionIndex + 1) + ": Completed = " + scom + "%, Hierarchy="
+					+ format.format(JER.getPercentage()) + "%\n");
+
 			ongoingGenerationIndex = 0;
-			
-			if (!canceled){
-			System.out.println("--initial population");		
-			population = produceInitialPopulation();
+
+			if (!canceled) {
+				population = produceInitialPopulation();
+				LOG.debug("\n>>>>> Initial population: \n");
+				LOG.debug(TriclusterUtilities.getInstance().populationToString(population)+"\n");
+				LOG.debug("\n<<<<< Initial population: \n");
 			}
-			
+						
 			rop++;
-			
+
 			while (ongoingGenerationIndex < PARAM.getG() && !canceled) {
-				
-				com = (rop/top)*100;				
+
+				com = (rop / top) * 100;
 				checkTaskState(com);
 				scom = format.format(com);
-				System.out.print("["+(ongoingSolutionIndex+1)+","+(ongoingGenerationIndex+1)+"] "+scom+"% J="+format.format(JER.getPercentage())+"%");
 				
-				LOG.debug("****> Entrada: "+population);
-				
-				if (!canceled){
-				System.out.print("--evaluation");
-				evaluate(population);
-				}
-				
-				rop++;
-				
-				if (!canceled){
-				System.out.print("--selection");
-				parents = select(population);
-				}			
-				
-				LOG.debug("****> Seleccionados: "+population);
-				
-				rop++;
-				
-				if (!canceled){
-				System.out.print("--crossover");							
-				children = crossover(population,parents);
-				}
-				
-				LOG.debug("****> Cruces: "+children);
-				
-				rop++;
-				
-				if (!canceled){
-				System.out.print("--mutation\n");
-				mutatedChildren = mutate(children);
-				}
-				
-				LOG.debug("****> Mutados: "+mutatedChildren);
-				
-				rop++;
-								
-				if (!canceled){
-				population.clear();	
-				population.addAll(parents);
-				population.addAll(mutatedChildren);	
-				}
-							
-												
-				ongoingGenerationIndex++;
-						
-			}
-			
-			com = (rop/top)*100;			
-			checkTaskState(com);
-			scom = format.format(com);
-			
-			if (!canceled){
-			System.out.println("["+(ongoingSolutionIndex + 1)+"] "+scom+"%: results evaluation");
-			evaluate(population);
-			}
-			
-			rop++;
-						
-			com = (rop/top)*100;			
-			checkTaskState(com);
-			scom = format.format(com);
-			
-			AlgorithmIndividual best = null;
-			
-			if (!canceled){
-			System.out.println("["+(ongoingSolutionIndex + 1)+"] "+scom+"%: solution criterion");
-			best = chooseTheBest(population);
-			}
-			
-			rop++;
-			
-			if (!canceled) solutions.add(best);
+				LOG.info("[" + (ongoingSolutionIndex + 1) + "," + (ongoingGenerationIndex + 1) + "] Completed = " 
+						+ scom + "% Hierarchy="
+						+ format.format(JER.getPercentage()) + "%\n");
 
-			com = (rop/top)*100;			
-			checkTaskState(com);			
-			scom = format.format(com);
-			
-			if (!canceled){
-			System.out.println("["+(ongoingSolutionIndex + 1)+"] "+scom+"%: update data hierarchy");
-			JER.update(best);
+				
+				if (!canceled) {
+					LOG.debug("--evaluation");
+					evaluate(population);
+				}
+
+				rop++;
+
+				if (!canceled) {
+					LOG.debug("--selection");
+					parents = select(population);
+				}
+
+				rop++;
+
+				if (!canceled) {
+					LOG.debug("--crossover");
+					children = crossover(population, parents);
+				}
+
+				rop++;
+
+				if (!canceled) {
+					LOG.debug("--mutation\n");
+					mutatedChildren = mutate(children);
+				}
+
+				rop++;
+
+				if (!canceled) {
+					population.clear();
+					population.addAll(parents);
+					population.addAll(mutatedChildren);
+				}
+
+				ongoingGenerationIndex++;
+
 			}
-			
-			LOG.debug("Best: "+best);
-			
-			LOG.debug("Hierarchy");
-			LOG.debug("\n"+JER);
-			
+
+			com = (rop / top) * 100;
+			checkTaskState(com);
+			scom = format.format(com);
+
+			if (!canceled) {
+				LOG.debug("--results evaluation");
+				evaluate(population);
+			}
+
 			rop++;
-						
+
+			com = (rop / top) * 100;
+			checkTaskState(com);
+			scom = format.format(com);
+
+			AlgorithmIndividual best = null;
+
+			if (!canceled) {
+				LOG.debug("--solution criterion");
+				best = chooseTheBest(population);
+			}
+
+			rop++;
+
+			if (!canceled)
+				solutions.add(best);
+
+			com = (rop / top) * 100;
+			checkTaskState(com);
+			scom = format.format(com);
+
+			if (!canceled) {
+				LOG.debug("--update data hierarchy\n");
+				JER.update(best);
+			}
+
+			LOG.debug("\n>>>>>\n");
+			LOG.debug("Best: "+TriclusterUtilities.getInstance().individualToString(best)+"\n");
+			LOG.debug("\n");
+			LOG.debug("Hierarchy: \n");
+			LOG.debug(JER.toString());
+			LOG.debug("<<<<<\n");
+
+			rop++;
+
 			ongoingSolutionIndex++;
 		}
-		
+
 		com = 100.0;
 		checkTaskState(com);
 		
-		if (!canceled){
-			System.out.println(com+"%: completed");
+		LOG.info("\n");
+
+		if (!canceled) {
+			LOG.info("Completed = "+com+ "%");
 		} else {
-			System.out.println("\ncancelled");
+			LOG.info("Cancelled");
 		}
+		
+		LOG.info("\n");
 		
 		return solutions;
 	}
 
-	
 	/**
 	 * Initial population method.
 	 * 
@@ -317,36 +329,35 @@ public class TriGen {
 	private void evaluate(List<AlgorithmIndividual> population) {
 
 		DecimalFormat f = TextUtilities.getDecimalFormat('.', "0.000");
-		
+
 		AlgorithmConfiguration c = AlgorithmConfiguration.getInstance();
 
 		if (c.isConcurrency() == false) {
 
 			ongoingEvaluatedIndividualIndex = 1;
-					
-			for (AlgorithmIndividual ind: population){
-				
+
+			for (AlgorithmIndividual ind : population) {
+
 //				LOG.debug("\n"+ind.toString());
-				
-				if (ind.canSkipEvaluation()==true){
-					
+
+				if (ind.canSkipEvaluation() == true) {
+
 //					LOG.debug("skiped");
-					
-				}
-				else{
-					
+
+				} else {
+
 //					double ffbefore = ind.getFitnessFunctionValue();
 //					
 //					boolean canSkip = ind.chekCanSkipEvaluation();
-					
-					//LOG.debug("\n BEFORE = "+ind.toString()+" --> can skip? = "+canSkip);
-									
-					
+
+					// LOG.debug("\n BEFORE = "+ind.toString()+" --> can skip? = "+canSkip);
+
 					fitnessFunction.evaluate(ind);
-					ind.addEntry("evaluated FF = "+f.format(ind.getFitnessFunctionValue())+" ["+(ongoingGenerationIndex+1)+"]");
+					ind.addEntry("evaluated FF = " + f.format(ind.getFitnessFunctionValue()) + " ["
+							+ (ongoingGenerationIndex + 1) + "]");
 					ind.setEvaluated(true);
 					ind.setAltered(false);
-					
+
 //					double ffafter = ind.getFitnessFunctionValue();
 //					
 //					boolean q1 = (ffbefore==ffafter);
@@ -354,45 +365,42 @@ public class TriGen {
 //					LOG.debug("\n BEFORE=AFTER? = "+q1+" ## can skip? = "+canSkip+" ## R = "+(canSkip==q1));
 //					
 //					if (canSkip!=q1) LOG.debug("\n\nERROR\n\n");
-				
+
 				}
-				
-				ongoingEvaluatedIndividualIndex++;			
+
+				ongoingEvaluatedIndividualIndex++;
 			}
 
 		}
 
 		else {
-			
+
 			ExecutorService pool = Executors.newFixedThreadPool(c.getThreads());
-		
+
 			Collection<ConcurrentEvaluator> concurrentTask = new LinkedList<ConcurrentEvaluator>();
-			
 
 			int i = 0;
-			
-			for (AlgorithmIndividual ind: population){
-				
-				if (ind.canSkipEvaluation()==true){
-				
-					
-				}
-				else{
-					concurrentTask.add(new ConcurrentEvaluator(fitnessFunction,ind, i));
-					ind.addEntry("evaluated ["+(ongoingGenerationIndex+1)+"]");
+
+			for (AlgorithmIndividual ind : population) {
+
+				if (ind.canSkipEvaluation() == true) {
+
+				} else {
+					concurrentTask.add(new ConcurrentEvaluator(fitnessFunction, ind, i));
+					ind.addEntry("evaluated [" + (ongoingGenerationIndex + 1) + "]");
 					ind.setEvaluated(true);
 					ind.setAltered(false);
 					i++;
 				}
-			
+
 			}
-		
+
 			try {
-			
+
 				pool.invokeAll(concurrentTask);
 
 			} catch (InterruptedException e) {
-				
+
 				e.printStackTrace();
 			}
 
@@ -409,30 +417,31 @@ public class TriGen {
 	 * @return the selected population
 	 */
 	private List<AlgorithmIndividual> select(List<AlgorithmIndividual> population) {
-		
+
 		AlgorithmConfiguration config = AlgorithmConfiguration.getInstance();
-		
+
 		int numberOfSelections = (int) (config.getSel() * config.getI());
-		
-		return selection.select(numberOfSelections,population);
-		
+
+		return selection.select(numberOfSelections, population);
+
 	}
 
 	/**
 	 * Crossover method.
 	 * 
-	 * @param basePopulation the population
+	 * @param basePopulation     the population
 	 * @param selectedPopulation the selected population
 	 * @return the children
 	 */
-	private List<AlgorithmIndividual> crossover(List<AlgorithmIndividual> basePopulation,List<AlgorithmIndividual> selectedPopulation) {
-		
+	private List<AlgorithmIndividual> crossover(List<AlgorithmIndividual> basePopulation,
+			List<AlgorithmIndividual> selectedPopulation) {
+
 		AlgorithmConfiguration config = AlgorithmConfiguration.getInstance();
-		
-		int numberOfChildren  = config.getI() - selectedPopulation.size();
-				
+
+		int numberOfChildren = config.getI() - selectedPopulation.size();
+
 		return crossover.cross(numberOfChildren, selectedPopulation);
-	
+
 	}
 
 	/**
@@ -442,31 +451,31 @@ public class TriGen {
 	 * @return the mutated population
 	 */
 	private List<AlgorithmIndividual> mutate(List<AlgorithmIndividual> population) {
-		
+
 		AlgorithmRandomUtilities randomSupport = AlgorithmRandomUtilities.getInstance();
-		
+
 		AlgorithmConfiguration config = AlgorithmConfiguration.getInstance();
-		
-		for (AlgorithmIndividual ind:population){
-						
+
+		for (AlgorithmIndividual ind : population) {
+
 			double porcentaje = randomSupport.getPercentage();
-			
+
 			boolean mutateIndividual = porcentaje < config.getMut();
-			
-			if (mutateIndividual){
-				
+
+			if (mutateIndividual) {
+
 				mutation.mutate(ind);
-				
+
 				ind.setAltered(true);
-				
-				ind.addEntry("mutated ["+(ongoingGenerationIndex+1)+"]");
-				
+
+				ind.addEntry("mutated [" + (ongoingGenerationIndex + 1) + "]");
+
 			}
-			
+
 		}
-		
+
 		return population;
-	
+
 	}
 
 	/**
@@ -478,7 +487,7 @@ public class TriGen {
 	private AlgorithmIndividual chooseTheBest(List<AlgorithmIndividual> population) {
 		return solutionCriterion.chooseTheBest(population);
 	}
-	
+
 	/**
 	 * Gets the solutions of an algorithm run.
 	 * 
@@ -525,44 +534,40 @@ public class TriGen {
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////OTHER METHODS//////////////////////////////
+	////////////////////////////////////// OTHER
+	///////////////////////////////////////////////////////////////////////////////// METHODS//////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////
-	
-	
+
 	public void setTask(TriGenGuiTask task) {
 		this.task = task;
 	}
-	
-	public boolean isCancelled (){
+
+	public boolean isCancelled() {
 		return canceled;
 	}
-	
-	public void cancel (){
+
+	public void cancel() {
 		canceled = true;
 	}
-	
-	private void checkTaskState (double v){
-		
-		if (task!=null){
-			
-			if (v>100.0) v = 100.0;
-			
+
+	private void checkTaskState(double v) {
+
+		if (task != null) {
+
+			if (v > 100.0)
+				v = 100.0;
+
 			task.setProgress(v);
-			
-			if (task.isCancelled()){
-				
+
+			if (task.isCancelled()) {
+
 //				(Thread.currentThread()).stop();
 //				(Thread.currentThread()).interrupt();
 				canceled = true;
 			}
-			
-		}
-			
-	}
 
-	
-	
-	
-	
+		}
+
+	}
 
 }

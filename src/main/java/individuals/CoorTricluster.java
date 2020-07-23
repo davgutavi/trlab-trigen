@@ -48,7 +48,7 @@ public class CoorTricluster extends AlgorithmIndividual {
 		List<Integer> r = new LinkedList<Integer>();
 		
 		for (Integer coor:component){
-			r.add(coor);
+			r.add(new Integer(coor.intValue()));
 		}
 		
 		Collections.sort(r);

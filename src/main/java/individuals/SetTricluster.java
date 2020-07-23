@@ -27,7 +27,7 @@ public class SetTricluster extends AlgorithmIndividual {
 		SortedSet<Integer> r = new TreeSet<Integer>();
 		
 		for (Integer coor:component){
-			r.add(coor);
+			r.add(new Integer (coor.intValue()));
 		}
 		
 		return r;

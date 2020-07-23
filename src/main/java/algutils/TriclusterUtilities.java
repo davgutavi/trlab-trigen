@@ -596,11 +596,8 @@ public class TriclusterUtilities {
 		AlgorithmIndividual individuo = null;
 		try {
 
-//				LOG.debug("Class = "+individualClassName);
 			individuo = (AlgorithmIndividual) (Class.forName(individualClassName)).newInstance();
-//				LOG.debug("g = "+g);
-//				LOG.debug("c = "+c);
-//				LOG.debug("t = "+t);
+
 			individuo.initialize(g, c, t);
 			individuo.addEntry(entryLog);
 		} catch (InstantiationException e) {
@@ -623,8 +620,44 @@ public class TriclusterUtilities {
 
 	
 	
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// <<<<<<<<<<<<<<<<<<<<<<<<< Printing populations <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	
-	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	// <<<<<<<<<<<<<<<<<<<<<<<<< Mutation utilities <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	public String populationToString (List<AlgorithmIndividual> population) {
+		
+		String r = "";
+		
+		int i = 1;
+		
+		for(AlgorithmIndividual ind:population) {
+			
+			r+="["+i+"] "+individualToString(ind);
+			
+			if (i<population.size())
+				r+="\n";
+			
+			i++;
+		}
+				
+		return r;
+	}
+	
+	public String individualToString (AlgorithmIndividual individual) {
+		
+		String r = "";
+		
+//		r += "G(Y){"+individual.getGeneSize()+"}"+individual.getGenes()+
+//				" ----- S(X){"+individual.getSampleSize()+"}"+individual.getSamples()+
+//				" ----- T{"+individual.getTimeSize()+"}"+individual.getTimes();
+		
+		r += " X{"+individual.getSampleSize()+"} "+individual.getSamples()+
+				"  Y {"+individual.getGeneSize()+"} "+individual.getGenes();
+		
+		return r;
+	}
+	
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// >>>>>>>>>>>>>>>>>>>>>>>>> Printing populations >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }

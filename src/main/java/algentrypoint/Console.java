@@ -51,9 +51,9 @@ public class Console {
 
 				AlgorithmConfiguration config = AlgorithmConfiguration.getInstance();
 
-				LOG.info("Run configuration:\n" + config.getReportString());
+				LOG.debug("Run configuration:\n" + config.getReportString()+"\n");
 
-				LOG.info("Implementation:\n" + control.getImplementation() + "\n");
+				LOG.debug("Implementation:\n" + control.getImplementation()+"\n\n");
 
 				TriGen TRIGEN = TriGen.getInstance();
 
@@ -65,7 +65,7 @@ public class Console {
 
 				long t1 = now1.getTimeInMillis();
 
-				LOG.info("Executing algoritm:");
+				LOG.info("Executing algoritm:\n");
 
 				List<AlgorithmIndividual> r = TRIGEN.runAlgorithm();
 
@@ -89,11 +89,9 @@ public class Console {
 
 				}
 
-				LOG.info("");
+				LOG.info("\n"+timeString+"\n");
 
-				LOG.info(timeString);
-
-				LOG.info("Building the solution file");
+				LOG.info("\nBuilding solutions\n");
 
 				// If the "out" parameter has no value, then use the same path
 				// than control input -> OK
@@ -106,7 +104,7 @@ public class Console {
 
 				Facade.buildCompleteResultsFiles(lr, solDir.getAbsolutePath());
 
-				LOG.info("DONE!");
+				LOG.info("\nDONE!");
 
 			} catch (IOException | WrongContolException | InvalidImplementationException e) {
 				e.printStackTrace();

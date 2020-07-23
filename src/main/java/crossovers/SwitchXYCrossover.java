@@ -10,18 +10,18 @@ import algcore.AlgorithmIndividual;
 import algcore.Crossover;
 import algcore.TriGen;
 import algutils.TriclusterUtilities;
-import strcrossover.GridStrategy;
+import strcrossover.SwitchXYStrategy;
 
-public class GridCrossover implements Crossover {
+public class SwitchXYCrossover  implements Crossover {
 	
 	@SuppressWarnings("unused")
-	private static final Logger LOG = LoggerFactory.getLogger(GridCrossover.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SwitchXYCrossover.class);
 
 	private CrossoverStrategy grid;
 
-	public GridCrossover() {
+	public SwitchXYCrossover() {
 
-		grid = new GridStrategy();
+		grid = new SwitchXYStrategy();
 
 	}
 	
@@ -48,11 +48,8 @@ public class GridCrossover implements Crossover {
 			r.add(children[1]);
 
 //			LOG.debug(father.toString());
-//			
 //			LOG.debug(mother.toString());
-//			
 //			LOG.debug(children[0].toString());
-//			
 //			LOG.debug(children[1].toString());
 			
 		}
