@@ -167,7 +167,7 @@ public abstract class AlgorithmIndividual implements Comparable<AlgorithmIndivid
 	
 	public int compareTo(AlgorithmIndividual o) {
 		
-		double fe1 = fitnessFunction;
+		double fe1 = this.getFitnessFunctionValue();
 		
 		double fe2 = o.getFitnessFunctionValue();
 	

@@ -31,7 +31,9 @@ public class Msr3dXY implements FitnessFunction {
 		double sizeXY = TriclusterUtilities.getInstance().toPoints(individual).size();	
 		
 		double measure = mslts.calculate(individual)/HIGHEST_LSL_MULTI;		
-		double overlapping = commonXY/currentPoints.size();		
+		double overlapping = 0;
+		if(currentPoints.size()!=0)
+			overlapping = commonXY/currentPoints.size();		
 		double size = sizeXY/(AlgorithmConfiguration.getInstance().getMaxG()*AlgorithmConfiguration.getInstance().getMaxC());
 
 		double wf = AlgorithmConfiguration.getInstance().getWf();

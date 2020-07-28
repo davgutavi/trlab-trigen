@@ -652,7 +652,7 @@ public class TriclusterUtilities {
 //				" ----- T{"+individual.getTimeSize()+"}"+individual.getTimes();
 		
 		r += " X{"+individual.getSampleSize()+"} "+individual.getSamples()+
-				"  Y {"+individual.getGeneSize()+"} "+individual.getGenes();
+				"  Y {"+individual.getGeneSize()+"} "+individual.getGenes()+" F = "+individual.getFitnessFunctionValue();
 		
 		return r;
 	}
