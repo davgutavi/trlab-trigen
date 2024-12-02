@@ -202,6 +202,12 @@ public class GridGS implements DataHierarchy {
 
 		return res;
 	}
+	
+	@Override
+	public ArrayList<ArrayList<Collection<Integer>>> build_st_coorinates(int n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public ArrayList<Collection<Integer>> build_i_coorinates(int n, char type) {
@@ -354,5 +360,7 @@ public class GridGS implements DataHierarchy {
 
 		return res;
 	}
+
+
 
 }

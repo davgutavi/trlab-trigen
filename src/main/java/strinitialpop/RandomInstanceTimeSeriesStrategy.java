@@ -11,7 +11,7 @@ import algutils.AlgorithmRandomUtilities;
 import algutils.TriclusterUtilities;
 import initialpops.InitialPopStrategy;
 
-public class RandomTimeSeriesStrategy implements InitialPopStrategy {
+public class RandomInstanceTimeSeriesStrategy implements InitialPopStrategy {
 
 	public List<AlgorithmIndividual> generateIndividuals(int numberOfIndividuals, String individualClassName) {
 
@@ -26,18 +26,18 @@ public class RandomTimeSeriesStrategy implements InitialPopStrategy {
 			int numeroGenes       = ALEATORIOS.getFromInterval(PARAM.getMinG(), PARAM.getMaxG());
 			int numeroCondiciones = ALEATORIOS.getFromInterval(PARAM.getMinC(), PARAM.getMaxC());
 			int numeroTiempos     = ALEATORIOS.getFromInterval(PARAM.getMinT(), PARAM.getMaxT());
-			
-			Collection<Integer> g = TriclusterUtilities.getInstance().getDispersedRandomComponent(numeroGenes,DATOS.getGenesBag());
+				
 			Collection<Integer> c = TriclusterUtilities.getInstance().getDispersedRandomComponent(numeroCondiciones,DATOS.getSamplesBag());
-
-			int coordenadaTiempo = ALEATORIOS.getFromInterval(0, DATOS.getTimeSize() - 1);
-			Collection<Integer> t = TriclusterUtilities.getInstance().getIntervalComponent(coordenadaTiempo,numeroTiempos,DATOS.getTimeSize());
-						
+			Collection<Integer> t = TriclusterUtilities.getInstance().getDispersedRandomComponent(numeroTiempos,DATOS.getTimesBag());
+				
+			int coordenadaGen = ALEATORIOS.getFromInterval(0, DATOS.getGenSize() - 1);
+			Collection<Integer> g = TriclusterUtilities.getInstance().getIntervalComponent(coordenadaGen,numeroGenes,DATOS.getGenSize());
+				
 			AlgorithmIndividual nuevo = null;
 			try {
 				nuevo = (AlgorithmIndividual) (Class.forName(individualClassName)).newInstance();
 				nuevo.initialize(g,c,t);
-				nuevo.addEntry("from initial population: random time series");
+				nuevo.addEntry("from initial population: random instance time series");
 				l.add(nuevo);
 			} 
 			catch (InstantiationException e) {e.printStackTrace();}

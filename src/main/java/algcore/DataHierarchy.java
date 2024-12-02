@@ -16,6 +16,8 @@ public interface DataHierarchy {
 	
 	public ArrayList<ArrayList<Collection<Integer>>> build_gs_coorinates (int n);
 	
+	public ArrayList<ArrayList<Collection<Integer>>> build_st_coorinates (int n);
+	
 	public ArrayList<Collection<Integer>> build_i_coorinates (int n, char type);
 	
 	/**

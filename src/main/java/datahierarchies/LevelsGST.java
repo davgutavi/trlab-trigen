@@ -91,6 +91,36 @@ public class LevelsGST implements DataHierarchy {
 
 		return res;
 	}
+	
+	@Override
+	public ArrayList<ArrayList<Collection<Integer>>> build_st_coorinates(int n) {
+		
+		ArrayList<ArrayList<Collection<Integer>>> res = new ArrayList<ArrayList<Collection<Integer>>>(n);
+
+		for (int i = 0; i < n; i++) {
+			
+			int conditions_size = AlgorithmRandomUtilities.getInstance().
+					getFromInterval(AlgorithmConfiguration.getInstance().getMinC(), 
+							AlgorithmConfiguration.getInstance().getMaxC());
+			
+			int times_size = AlgorithmRandomUtilities.getInstance().
+					getFromInterval(AlgorithmConfiguration.getInstance().getMinT(), 
+							AlgorithmConfiguration.getInstance().getMaxT());
+			
+			
+			ArrayList<Collection<Integer>> aux1 = new ArrayList<Collection<Integer>> (2);
+			
+			List<Integer> cl = getHierarchicalListOfSamples(conditions_size);
+			List<Integer> tl = getHierarchicalListOfTimes(times_size);
+			
+			aux1.add(cl);				
+			aux1.add(tl);
+			res.add(aux1);
+
+		}
+
+		return res;
+	}
 
 
 
@@ -378,6 +408,8 @@ public class LevelsGST implements DataHierarchy {
 
 		return l;
 	}
+
+
 
 
 

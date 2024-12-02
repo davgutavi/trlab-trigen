@@ -104,7 +104,7 @@ public class Console {
 
 				Facade.buildCompleteResultsFiles(lr, solDir.getAbsolutePath());
 
-				LOG.info("\nDONE!");
+				LOG.info("\nDONE!\n");
 
 			} catch (IOException | WrongContolException | InvalidImplementationException e) {
 				e.printStackTrace();

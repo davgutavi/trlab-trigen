@@ -60,12 +60,26 @@ public class TriclusterUtilities {
 		return res;
 
 	}
+	
+	public double[][][] buildCGTView(AlgorithmIndividual tricluster, AlgorithmDataset dataset) {
+
+		return buildCube(tricluster.getSamples(), tricluster.getGenes(), tricluster.getTimes(), dataset, 1);
+
+	}
+	
+	public double[][][] buildTGCView(AlgorithmIndividual tricluster, AlgorithmDataset dataset) {
+
+		return buildCube(tricluster.getTimes(), tricluster.getGenes(), tricluster.getSamples(), dataset, 2);
+
+	}
 
 	public double[][][] buildGTCView(AlgorithmIndividual tricluster, AlgorithmDataset dataset) {
 
 		return buildCube(tricluster.getGenes(), tricluster.getTimes(), tricluster.getSamples(), dataset, 3);
 
 	}
+	
+
 
 	private double[][][] buildCube(Collection<Integer> series, Collection<Integer> xAxis, Collection<Integer> graphics,
 			AlgorithmDataset dataset, int type) {
